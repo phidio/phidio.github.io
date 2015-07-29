@@ -4,12 +4,15 @@
         <meta charset="utf-8" />
         <meta name="format-detection" content="telephone=no" />
         <meta name="msapplication-tap-highlight" content="no" />
-        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-
+        <meta name="description" content="Phidio is a multiplatform video chatting applications, which allows you to easily meet new people across the world.">
+        <meta name="author" content="Bart Jansen">
+        <meta name="keywords" conent="phid.io,phidio,videochat,webrtc,interaction,mobile,vidchat,webcam">
         <link rel="stylesheet" type="text/css" href="css/index.css" />
         <link href='//fonts.googleapis.com/css?family=Roboto:400,100italic,100,300italic,300,400italic,500,500italic,700' rel='stylesheet' type='text/css'>
-        <title>Phidio</title>
+        <link rel="canonical" href="https://phid.io" />
+        <title>Phidio | Start meeting new people today</title>
     </head>
     <body>
         <div class="app" style="display:none; visibility: hidden;">
@@ -31,6 +34,11 @@
         <script type="text/javascript" src="https://bart-webrtc.herokuapp.com/socket.io/socket.io.js"></script>
         <!-- <script type="text/javascript" src="http://localhost:3000/socket.io/socket.io.js"></script> -->
         <script type="text/javascript">
+            //force https
+            var host = "phid.io";
+            if ((host == window.location.host) && (window.location.protocol != "https:"))
+                window.location.protocol = "https";
+
             // var socket = io.connect('http://localhost:3000/'),
             var socket = io.connect('https://bart-webrtc.herokuapp.com/'),
                 session, username, callingTo, duplicateMessages = [];

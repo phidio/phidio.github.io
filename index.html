@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <link href='http://fonts.googleapis.com/css?family=Roboto:400,100italic,100,300italic,300,400italic,500,500italic,700' rel='stylesheet' type='text/css'>
+        <title>Phidio</title>
+    </head>
+    <body>
+        <div class="app" style="display:none; visibility: hidden;">
+            <p>List of Users
+            <ul></ul>
+        </div>
+        <div class="chat" style="display:none; visibility: hidden;">
+            <div id="videoContainer"></div>
+        </div>
+
+        <div id="user-container">
+            Online users: <span id="amount_of_users">0</span><br/>
+            Idle users: <span id="amount_of_idles">0</span><br/>
+        </div>
+        <div id="roulette">ROULETTE</div>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/jquery.min.js"></script>
+        <script type="text/javascript" src="js/adapter.js"></script>
+        <script type="text/javascript" src="https://bart-webrtc.herokuapp.com/socket.io/socket.io.js"></script>
+        <!-- <script type="text/javascript" src="http://localhost:3000/socket.io/socket.io.js"></script> -->
+        <script type="text/javascript">
+            // var socket = io.connect('http://localhost:3000/'),
+            var socket = io.connect('https://bart-webrtc.herokuapp.com/'),
+                session, username, callingTo, duplicateMessages = [];
+
+            username = Math.random().toString(36).substring(7);
+            socket.emit('login', username);
+
+            socket.on('login_error', function(message){
+                console.log('login_error');
+            });
+
+            socket.on('login_successful', function(users){
+                console.log('login_successful');
+                // $.each(users, function(index, user){
+                //     if(user !== username){
+                //         var u = $('<li class="item" data-user="'+user+'">' + user + '<span>Call</span></li>');
+                //         $('ul').append(u);
+                //     }
+                // });
+            });
+
+            // broadcasted by socket: online users changed
+            socket.on('onlineUsers', function(users, idleUsers){
+                // var u = $('<li class="item" data-user="'+user+'">' + user + '<span>Call</span></li>');
+                // $('ul').append(u);
+                console.log(users, idleUsers);
+                $('#amount_of_users').html(users);
+                $('#amount_of_idles').html(idleUsers);
+            });
+
+            socket.on('messageReceived', onVideoMessageReceived);
+
+            socket.on('offline', function(name){
+                if(name === callingTo){
+                    if(session) session.close();
+                    $('.app').show();
+                    $('.chat').hide();
+                    socket.emit('makeIdle');
+                    callingTo = '';
+                }
+                // $('li.item[data-user="'+name+'"]').remove();
+            });
+
+            socket.on('disconnect', function(){
+                console.log('somehow disconnect!!!!!');
+                if(callingTo){
+                    session.close();
+                    $('.app').show();
+                    $('.chat').hide();
+                    // $('#answer').show();
+                    // $('#hangup').hide();
+                }
+            });
+
+            function call(isInitiator){
+                $.ajax({
+                    type: "POST",
+                    beforeSend: function(xhr){
+                        if (xhr.overrideMimeType) {
+                            xhr.overrideMimeType("application/json");
+                        }
+                    },
+                    dataType: "json",
+                    url: "https://api.xirsys.com/getIceServers",
+                    data: {
+                        ident: "dhiraj",
+                        secret: "bb56af66-b4d4-4e7e-8994-98199a4e4c36",
+                        domain: "github.com",
+                        application: "sample-chat-app",
+                        room: "sample-chat-room",
+                        secure: 1
+                    },
+                    success: function (data, status) {
+                        startCall(data.d.iceServers[2], isInitiator);
+                    },
+                    async: false
+                });
+            }
+
+            function startCall(data, isInitiator){
+                console.log("STARTING CALLLL!!!", data, isInitiator);
+
+                var config = {
+                    isInitiator: isInitiator,
+                    turn: {
+                        host: data.url,
+                        username: data.username,
+                        password: data.credential
+                    },
+                    streams: {
+                        audio: true,
+                        video: true
+                    }
+                }
+                session = new cordova.plugins.phonertc.Session(config);
+
+                cordova.plugins.phonertc.setVideoView({
+                    container: document.getElementById('videoContainer'),
+                    local: {
+                        position: [0, 0],
+                        size: [150, 150]
+                    }
+                });
+                session.on('sendMessage', function (data) {
+                    socket.emit('sendMessage', callingTo, {
+                      type: 'phonertc_handshake',
+                      data: JSON.stringify(data)
+                    });
+                });
+
+                session.on('answer', function () {
+                    console.log('answered');
+                });
+                session.on('disconnect', function () {
+                    session.close();
+                    socket.emit('sendMessage', callingTo, { type: 'ignore' });
+                    $('.app').show();
+                    $('.chat').hide();
+                    // $('#answer').show();
+                    // $('#hangup').hide();
+                });
+                session.call();
+            }
+
+            socket.on('gotRandomCall', function(name, isInitiator) {
+                callingTo = name;
+
+                if(isInitiator) {
+                    socket.emit('sendMessage', callingTo, { type: 'call' });
+                }
+            });
+
+            socket.on('noUsersAvailable', function() {
+                console.log('CURRENTLY NOBODY AVAILABLE!!!');
+                alert('nobody available');
+                callingTo = '';
+                $('.app').show();
+                $('.chat').hide();
+            });
+
+
+            function onVideoMessageReceived(name, message){
+                switch (message.type){
+                    case 'call':
+                        console.log('message received, call');
+                        socket.emit('makeNonIdle');
+                        call(false);
+
+                        setTimeout(function(){
+                            socket.emit('sendMessage', callingTo, { type: 'answer' });
+                        }, 500);
+
+                        break;
+                    case 'answer':
+                        console.log(username + ' he answered');
+                        socket.emit('makeNonIdle');
+                        call(true);
+                        break;
+                    case 'phonertc_handshake':
+                        if (duplicateMessages.indexOf(message.data) === -1) {
+                            session.receiveMessage(JSON.parse(message.data));
+                            duplicateMessages.push(message.data);
+                        }
+                        break;
+                    case 'ignore':
+                        socket.emit('makeIdle');
+                        session.close();
+                        $('.app').show();
+                        $('.chat').hide();
+
+                        break;
+                }
+            }
+
+            $(document).ready(function(){
+                // AudioToggle.setAudioMode(AudioToggle.SPEAKER);
+                //
+                $('#roulette').on('click', function() {
+                    $('.app').hide();
+                    $('.chat').show();
+
+                    if(session) {
+                        session.close();
+                    }
+
+                    if(callingTo) {
+
+
+                        socket.emit('makeIdle');
+                        // socket.emit('sendMessage', callingTo, { type: 'ignore' });
+                        callingTo = '';
+                    }
+
+                    socket.emit('doRandomCall');
+                })
+
+                // $('.app').on('click', 'li', function(){
+                //     $('.app').hide();
+                //     $('.chat').show();
+                //     $('#answer').hide();
+                //     $('#hangup').show();
+                //     callingTo = $(this).data('user');
+                //     socket.emit('sendMessage', callingTo, {type: 'call'});
+                // });
+
+                // $('#answer').on('click', function(){
+                //     $('#answer').hide();
+                //     $('#hangup').show();
+                //     call(false);
+                //     setTimeout(function(){
+                //          socket.emit('sendMessage', callingTo, { type: 'answer' });
+                //     }, 1500);
+                // });
+
+                // // when hanging up an ongoing phonecall
+                // $('#hangup').on('click', function(){
+                //     socket.emit('sendMessage', callingTo, { type: 'ignore' });
+                //     $('.app').show();
+                //     $('.chat').hide();
+                //     $('#answer').show();
+                //     $('#hangup').hide();
+                // });
+            });
+        </script>
+    </body>
+</html>
+<!-- need to add AWS tutorial-->

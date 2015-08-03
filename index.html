@@ -10,6 +10,7 @@
         <meta name="author" content="Bart Jansen">
         <meta name="keywords" conent="phid.io,phidio,videochat,webrtc,interaction,mobile,vidchat,webcam">
         <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <link rel="import" href="https://www.polymer-project.org/0.5/components/paper-ripple/paper-ripple.html">
         <link href='//fonts.googleapis.com/css?family=Roboto:400,100italic,100,300italic,300,400italic,500,500italic,700' rel='stylesheet' type='text/css'>
         <link rel="canonical" href="https://phid.io" />
         <title>Phidio | Start meeting new people today</title>
@@ -27,7 +28,7 @@
             Online users: <span id="amount_of_users">0</span><br/>
             Idle users: <span id="amount_of_idles">0</span><br/>
         </div>
-        <div id="roulette">ROULETTE</div>
+        <div id="roulette">ROULETTE<paper-ripple class="circle recenteringTouch" fit></paper-ripple></div>
         <script type="text/javascript" src="js/jquery.min.js"></script>
         <script type="text/javascript" src="js/adapter.js"></script>
         <script type="text/javascript" src="https://bart-webrtc.herokuapp.com/socket.io/socket.io.js"></script>

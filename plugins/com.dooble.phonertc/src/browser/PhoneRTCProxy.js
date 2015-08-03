@@ -455,6 +455,9 @@ function refreshVideoContainer() {
       // videoView.style.width = videoSize + 'px';
       // videoView.style.height = videoSize + 'px';
 
+        x = 0;
+        y = 0;
+
       videoView.style.left = x + 'px';
       videoView.style.top = y + 'px';
 

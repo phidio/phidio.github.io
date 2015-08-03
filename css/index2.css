@@ -1,0 +1,240 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+* {
+    -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
+}
+
+html, body {
+        height: 100%;
+    min-height: 100%;
+        width: 100%;
+    /*overflow: hidden;*/
+}
+
+body {
+    -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
+    -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
+    -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
+    background-color: black;
+    background-image: url(../img/bg2.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    font-family: 'Roboto';
+    font-size:12px;
+    height:100%;
+    color: #fff;
+    margin:0px;
+    padding:0px;
+    width:100%;
+    -webkit-transition: background 0.5s;
+    transition: background 0.5s;
+}
+/*
+body > div {
+    height: 100%;
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
+}
+
+*/
+body.inCall .website-container {
+    -webkit-filter: blur(5px);
+    filter: blur(5px);
+}
+
+body.inCall {
+    background: #000;
+}
+
+-webkit-font-smoothing antialiased {
+  -moz-osx-font-smoothing: grayscale;
+}
+a {
+  text-decoration: none;
+  color: #fff;
+  -webkit-transition: color 0.5s, border-color 0.5s;
+  transition: color 0.5s, border-color 0.5s;
+}
+a:hover {
+  color: #ff3366;
+}
+
+nav#top-nav {
+  height: 70px;
+  padding: 20px;
+  max-width: 1170px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 10;
+}
+nav#top-nav .top-logo {
+  /*font-size: 30px;*/
+  /*height: 60px;*/
+  background-image: url(../img/logo.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 150px;
+  height:45px;
+  margin: 2px 0px;
+  float: left;
+}
+nav#top-nav > #social-media-container {
+  width: 210px;
+  height: 60px;
+  float: right;
+  text-align: right;
+}
+nav#top-nav > #social-media-container i {
+  font-size: 20px;
+  display: inline-block;
+  margin: 15px 10px;
+}
+
+section {
+    text-align: center;
+    text-transform: none;
+    font-size: 60px;
+    font-weight: 100;
+    margin-top: 100px;
+    margin-top: 10vh;
+}
+
+.limited-width {
+  max-width: 1170px;
+  margin: 0 auto;
+}
+footer {
+  height: 30px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding: 20px 0;
+}
+footer nav {
+  float: left;
+}
+footer .download-links {
+  float: right;
+  padding-right: 10px;
+}
+
+footer a,
+footer span {
+  display: inline-block;
+  font-size: 14px;
+  margin: 0 20px;
+  line-height: 30px;
+  font-weight: 300;
+}
+
+footer .download-links a {
+    font-size: 40px;
+    margin: -7px 5px;
+    border: 1px solid #fff;
+    border-radius: 5px;
+}
+
+footer .download-links a:hover {
+    border-color: #ff3366;
+}
+
+
+
+
+
+
+#remoteStream {
+    height: 100%;
+    min-height:100%;
+    max-height: 100%;
+    max-width: 100%;
+    /*object-fit: cover;*/
+    transition: opacity 1s;
+    -moz-transform: scale(-1,1);
+    -ms-transform: scale(-1,1);
+    -o-transform: scale(-1,1);
+    -webkit-transform: scale(-1,1);
+    transform: scale(-1,1);
+    width: 100%;
+    position: absolute;
+    z-index: 998;
+    top:0px;
+    left:0px;
+}
+
+#localStream {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 999;
+}
+
+#roulette {
+    background: #fc3768;
+    text-align: center;
+    color: #fff;
+    font-weight: 300;
+    font-size:18px;
+    line-height: 60px;
+    border-radius: 30px;
+    position: absolute;
+    z-index: 1000;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    bottom: 0px;
+    margin-bottom: 100px;
+    cursor:pointer;
+    max-width: 400px;
+    width: 100%;
+    width: calc(100% - 20px);
+    height: 60px;
+    transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition-delay: 0.2s;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+
+}
+
+#user-container {
+    background: rgba(255, 255, 255, .6);
+    color: #000;
+    font-weight: 300;
+    padding: 10px;
+    font-size:18px;
+    line-height: 30px;
+    border-radius: 5px;
+    position: absolute;
+    z-index: 1000;
+    width: 160px;
+    height: 60px;
+    margin: 30px 30px 0 0 ;
+    right: 0px;
+    top: 0px;
+    display: none;
+    text-transform: uppercase;
+}
+
+body.inCall #user-container {
+    display: block;
+}
+
+#user-container span {
+    font-weight: 500;
+}

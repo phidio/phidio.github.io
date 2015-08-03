@@ -126,14 +126,13 @@ footer nav {
 }
 footer .download-links {
   float: right;
-  padding-right: 10px;
+  padding-right: 5px;
 }
 
 footer a,
 footer span {
   display: inline-block;
   font-size: 14px;
-  margin: 0 20px;
   line-height: 30px;
   font-weight: 300;
 }

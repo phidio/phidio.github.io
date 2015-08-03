@@ -1,8 +1,3 @@
-//force https
-var host = "phid.io";
-if ((host == window.location.host) && (window.location.protocol != "https:"))
-    window.location.protocol = "https";
-
 var socket = io.connect('https://bart-webrtc.herokuapp.com/'),
     session, username, callingTo, duplicateMessages = [];
 

@@ -16,6 +16,12 @@
         <link rel="canonical" href="https://phid.io" />
         <link rel="icon" href="img/favicon.png" type="image/png">
         <title>Phidio - Meet new people. Today.</title>
+        <script type="text/javascript">
+          //force https
+          var host = "phid.io";
+          if ((host == window.location.host) && (window.location.protocol != "https:"))
+              window.location.protocol = "https";
+        </script>
     </head>
     <body>
       <div class="chat" style="display:none; visibility: hidden;">

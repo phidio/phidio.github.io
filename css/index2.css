@@ -16,9 +16,6 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-* {
-    -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
-}
 
 html, body {
         height: 100%;
@@ -28,11 +25,8 @@ html, body {
 }
 
 body {
-    -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
-    -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
-    -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
     background-color: black;
-    background-image: url(../img/bg2.jpg);
+    background-image: url(../img/bg.jpg);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: 50% 50%;
@@ -187,13 +181,13 @@ footer .download-links a:hover {
 }
 
 #roulette {
-    background: #fc3768;
+    background: #ff3366;
     text-align: center;
     color: #fff;
     font-weight: 300;
     font-size:18px;
     line-height: 60px;
-    border-radius: 30px;
+    border-radius: 20px;
     position: absolute;
     z-index: 1000;
     left: 0;
@@ -209,7 +203,10 @@ footer .download-links a:hover {
     transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     transition-delay: 0.2s;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+}
 
+#roulette:hover {
+    background-color: #ff416e;
 }
 
 #user-container {
@@ -237,4 +234,28 @@ body.inCall #user-container {
 
 #user-container span {
     font-weight: 500;
+}
+
+
+@media only screen and (max-width: 400px) {
+    nav #social-media-container {
+        display:none;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    footer {
+        height: 70px;
+    }
+    footer nav {
+        float:none;
+        text-align: center;
+    }
+    footer .download-links {
+        float: none;
+        padding: 0px;
+        text-align: center;
+        height: 90px;
+        margin: 10px 0px;
+    }
 }

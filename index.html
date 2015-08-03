@@ -28,18 +28,15 @@
             Idle users: <span id="amount_of_idles">0</span><br/>
         </div>
         <div id="roulette">ROULETTE</div>
-        <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/jquery.min.js"></script>
         <script type="text/javascript" src="js/adapter.js"></script>
         <script type="text/javascript" src="https://bart-webrtc.herokuapp.com/socket.io/socket.io.js"></script>
-        <!-- <script type="text/javascript" src="http://localhost:3000/socket.io/socket.io.js"></script> -->
         <script type="text/javascript">
             //force https
             var host = "phid.io";
             if ((host == window.location.host) && (window.location.protocol != "https:"))
                 window.location.protocol = "https";
 
-            // var socket = io.connect('http://localhost:3000/'),
             var socket = io.connect('https://bart-webrtc.herokuapp.com/'),
                 session, username, callingTo, duplicateMessages = [];
 
@@ -56,7 +53,6 @@
 
             // broadcasted by socket: online users changed
             socket.on('onlineUsers', function(users, idleUsers){
-                console.log(users, idleUsers);
                 $('#amount_of_users').html(users);
                 $('#amount_of_idles').html(idleUsers);
             });
@@ -227,6 +223,7 @@
           ga('send', 'pageview');
 
         </script>
+        <script type="text/javascript" src="cordova.js"></script>
     </body>
 </html>
 <!-- need to add AWS tutorial-->

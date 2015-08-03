@@ -52,7 +52,6 @@ function Session(config) {
       return;
     }
 
-    console.log(eventName);
     var args = Array.prototype.slice.call(arguments, 1);
     self.events[eventName].forEach(function (callback) {
       callback.apply(self, args);

@@ -266,10 +266,17 @@ footer .download-links a:hover {
 body.inCall #user-container {
   color: #000;
   background: rgba(255, 255, 255, .6);
+  width: 156px;
+  height: 60px;
+  white-space: normal;
+  text-align: left;
+  padding: 10px;
+  margin-right: 10px;
 }
 
 #user-container span {
     font-weight: 500;
+    margin-right: 10px;
 }
 
 
@@ -322,29 +329,26 @@ body.inCall #user-container {
     transform: rotate(359deg);
   }
 }
-
-
-
-
-
-
-
-@media only screen and (max-width: 400px) {
-    nav#top-nav .top-logo {
-      float: none;
-      margin: 20px auto;
+@media only screen and (max-width: 700px) {
+    section {
+      font-size: 46px;
     }
 
-    nav #social-media-container {
-        display:none;
+    #help_text {
+      font-size: 25px;
     }
 
-    #user-container {
-      left: 50%;
-      margin-left: -95px;
-      top: 100px
+    #roulette.chatting {
+      transform: translateY(24vh);
+      -webkit-transform: translateY(24vh);
+    }
+
+    body.inCall #roulette.chatting {
+      transform: translateY(30vh);
+      -webkit-transform: translateY(30vh);
     }
 }
+
 
 @media only screen and (max-width: 500px) {
     footer {
@@ -361,4 +365,62 @@ body.inCall #user-container {
         height: 90px;
         margin: 10px 0px;
     }
+
+    #roulette.chatting {
+      transform: translateY(17vh);
+      -webkit-transform: translateY(17vh);
+    }
+
+    body.inCall #roulette.chatting {
+      transform: translateY(30vh);
+      -webkit-transform: translateY(30vh);
+    }
+
+    section {
+      margin-top: 10px;
+      font-size: 42px;
+    }
+
+    #help_text {
+      margin-top: 20px;
+      font-size: 22px;
+    }
+
+    #user-container {
+      width: 100%;
+      right: 0;
+      margin: 0px;
+      padding: 0px;
+      text-align: center;
+      height: 30px;
+      white-space: nowrap;
+    }
+}
+
+
+
+
+
+@media only screen and (max-width: 400px) {
+    nav#top-nav .top-logo {
+      float: none;
+      margin: 5px auto;
+    }
+
+    nav #social-media-container {
+        display:none;
+    }
+
+    section {
+      margin-top: 10px;
+      font-size: 32px;
+    }
+
+
+    #help_text {
+      margin-top: 10px;
+      font-size: 18px;
+    }
+
+
 }

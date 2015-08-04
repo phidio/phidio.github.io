@@ -5,7 +5,7 @@
         <meta name="format-detection" content="telephone=no" />
         <meta name="msapplication-tap-highlight" content="no" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
         <meta name="description" content="Phidio is a multiplatform video chatting applications, which allows you to easily meet new people across the world.">
         <meta name="author" content="Bart Jansen">
         <meta name="keywords" conent="phid.io,phidio,videochat,webrtc,interaction,mobile,vidchat,webcam">
@@ -28,16 +28,21 @@
           <div id="videoContainer"></div>
       </div>
 
+          <div class="limited-width" style="position:relative; padding: 0px 20px;">
       <div id="user-container">
           Online users: <span id="amount_of_users">0</span><br/>
           Idle users: <span id="amount_of_idles">0</span><br/>
       </div>
-
-      <div id="roulette">ROULETTE<paper-ripple class="circle recenteringTouch" fit></paper-ripple></div>
+</div>
+      <div id="roulette">
+        <span id="roulette_txt">Join the conversation</span>
+        <div class="spinner"></div>
+        <paper-ripple class="circle recenteringTouch" fit></paper-ripple>
+      </div>
 
       <div class="website-container">
         <nav id="top-nav">
-          <a href="index.html"><div class="top-logo"></div></a>
+          <a href="/"><div class="top-logo"></div></a>
           <div id="social-media-container">
             <a href="https://www.facebook.com/phidio" target="_blank"><i class="icon-facebook"></i></a>
             <a href="https://twitter.com/phidioapp" target="_blank"><i class="icon-twitter"></i></a>
@@ -50,6 +55,10 @@
         <section>
           Meet new people. Today.
         </section>
+
+        <div id="help_text">
+
+        </div>
 
         <footer class="black-bg">
           <div class="limited-width">

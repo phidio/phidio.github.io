@@ -8,13 +8,6 @@ navigator.getUserMedia = navigator.getUserMedia || navigator.mozGetUserMedia || 
 var localStreams = [];
 var localVideoTrack, localAudioTrack;
 
-navigator.getUserMedia({video: true, audio: true}, function (stream) {
-  localStreams.push(stream);
-
-  localAudioTrack = stream.getAudioTracks()[0];
-  localVideoTrack = stream.getVideoTracks()[0];
-}, function() { console.log('error')});
-
 function Session(sessionKey, config, sendMessageCallback) {
   var self = this;
   self.sessionKey = sessionKey;
@@ -286,6 +279,20 @@ var localVideoView;
 var remoteVideoViews = [];
 
 module.exports = {
+  getCameraAccess: function(callback) {
+    navigator.getUserMedia({video: true, audio: true}, function (stream) {
+      localStreams = [];
+      localStreams.push(stream);
+
+      localAudioTrack = stream.getAudioTracks()[0];
+      localVideoTrack = stream.getVideoTracks()[0];
+
+      callback(true, '')
+    },
+    function(e) {
+      callback(false, e);
+    });
+  },
   createSessionObject: function (success, error, options) {
     var sessionKey = options[0];
     var session = new Session(sessionKey, options[1], success);
@@ -521,9 +528,9 @@ function onSessionDisconnect(sessionKey) {
       localVideoView = null;
     }
 
-    localStreams.forEach(function (stream) {
+    // localStreams.forEach(function (stream) {
       // stream.stop();
-    });
+    // });
 
     // localStreams = [];
     // localVideoTrack = null;

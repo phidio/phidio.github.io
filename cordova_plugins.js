@@ -10,7 +10,10 @@ module.exports = [
     {
         "file": "plugins/com.dooble.phonertc/src/browser/PhoneRTCProxy.js",
         "id": "com.dooble.phonertc.PhoneRTCProxy",
-        "runs": true
+        "runs": true,
+        "clobbers": [
+            "cordova.plugins.rtcproxy"
+        ]
     }
 ];
 module.exports.metadata =

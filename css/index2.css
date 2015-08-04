@@ -150,6 +150,24 @@ footer .download-links a:hover {
 
 
 
+#help_text {
+  max-width: 1170px;
+  padding: 20px;
+  margin: 0 auto;
+  border-radius: 10px;
+  /*background: rgba(255, 255, 255, .2);*/
+  text-align: center;
+  font-size: 30px;
+  margin-top: 50px;
+  opacity: 0;
+  transition: opacity .5s;
+  -webkit-transition: opacity .5s;
+}
+
+#help_text.show {
+  opacity: 1;
+}
+
 #remoteStream {
     height: 100%;
     min-height:100%;
@@ -183,22 +201,44 @@ footer .download-links a:hover {
     font-weight: 300;
     font-size:18px;
     line-height: 60px;
-    border-radius: 20px;
+    border-radius: 30px;
     position: absolute;
     z-index: 1000;
     left: 0;
     right: 0;
     margin: 0 auto;
-    bottom: 0px;
-    margin-bottom: 100px;
+    top: 50%;
+    transform: translateY(5vh);
+    -webkit-transform: translateY(5vh);
+      /*margin-top: 20px;*/
     cursor:pointer;
     max-width: 400px;
     width: 100%;
     width: calc(100% - 20px);
     height: 60px;
-    transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    transition-delay: 0.2s;
+    /*transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);*/
+    /*transition-delay: 0.2s;*/
+    transition: width .5s, transform .5s;
+    -webkit-transition: width .5s, -webkit-transform .5s;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+}
+
+#roulette.chatting {
+  transform: translateY(30vh);
+  -webkit-transform: translateY(30vh);
+}
+
+#roulette.loading {
+  width: 60px;
+}
+
+#roulette.loading #roulette_txt {
+  opacity: 0;
+}
+
+#roulette #roulette_txt {
+  transition: opacity .25s;
+  -webkit-transition: opacity .25s;
 }
 
 #roulette:hover {
@@ -206,8 +246,8 @@ footer .download-links a:hover {
 }
 
 #user-container {
-    background: rgba(255, 255, 255, .6);
-    color: #000;
+    background: rgba(255, 255, 255, .2);
+    color: #fff;
     font-weight: 300;
     padding: 10px;
     font-size:18px;
@@ -215,22 +255,78 @@ footer .download-links a:hover {
     border-radius: 5px;
     position: absolute;
     z-index: 1000;
-    width: 160px;
+    width: 170px;
     height: 60px;
-    margin: 30px 30px 0 0 ;
-    right: 0px;
-    top: 0px;
-    display: none;
+    /*margin: 30px 30px 0 0 ;*/
+    right: 30px;
+    top: 80px;
     text-transform: uppercase;
 }
 
 body.inCall #user-container {
-    display: block;
+  color: #000;
+  background: rgba(255, 255, 255, .6);
 }
 
 #user-container span {
     font-weight: 500;
 }
+
+
+.spinner {
+  height: 32px;
+  width: 32px;
+  display: none;
+  margin: 11px auto;
+  position: relative;
+  -webkit-animation: rotation .6s infinite linear;
+  -moz-animation: rotation .6s infinite linear;
+  -o-animation: rotation .6s infinite linear;
+  animation: rotation .6s infinite linear;
+  border-left: 3px solid rgba(255, 255, 255, 0.15);
+  border-right: 3px solid rgba(255, 255, 255, 0.15);
+  border-bottom: 3px solid rgba(255, 255, 255, 0.15);
+  border-top: 3px solid rgba(255, 255, 255, 0.8);
+  border-radius: 100%;
+}
+
+@-webkit-keyframes rotation {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(359deg);
+  }
+}
+@-moz-keyframes rotation {
+  from {
+    -moz-transform: rotate(0deg);
+  }
+  to {
+    -moz-transform: rotate(359deg);
+  }
+}
+@-o-keyframes rotation {
+  from {
+    -o-transform: rotate(0deg);
+  }
+  to {
+    -o-transform: rotate(359deg);
+  }
+}
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+
+
+
+
 
 
 @media only screen and (max-width: 400px) {
@@ -241,6 +337,12 @@ body.inCall #user-container {
 
     nav #social-media-container {
         display:none;
+    }
+
+    #user-container {
+      left: 50%;
+      margin-left: -95px;
+      top: 100px
     }
 }
 

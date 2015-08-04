@@ -84,7 +84,7 @@ nav#top-nav .top-logo {
   background-image: url(../img/logo.png);
   background-repeat: no-repeat;
   background-size: cover;
-  width: 150px;
+  width: 114px;
   height:45px;
   margin: 2px 0px;
   float: left;
@@ -113,20 +113,20 @@ section {
 .limited-width {
   max-width: 1170px;
   margin: 0 auto;
+  padding: 20px;
 }
 footer {
-  height: 30px;
+  height: 50px;
   position: fixed;
   bottom: 0;
   width: 100%;
-  padding: 20px 0;
+  padding: 20px 0px;
 }
 footer nav {
   float: left;
 }
 footer .download-links {
   float: right;
-  padding-right: 5px;
 }
 
 footer a,
@@ -147,9 +147,6 @@ footer .download-links a {
 footer .download-links a:hover {
     border-color: #ff3366;
 }
-
-
-
 
 
 
@@ -237,6 +234,11 @@ body.inCall #user-container {
 
 
 @media only screen and (max-width: 400px) {
+    nav#top-nav .top-logo {
+      float: none;
+      margin: 20px auto;
+    }
+
     nav #social-media-container {
         display:none;
     }
@@ -244,7 +246,7 @@ body.inCall #user-container {
 
 @media only screen and (max-width: 500px) {
     footer {
-        height: 70px;
+        height: 90px;
     }
     footer nav {
         float:none;

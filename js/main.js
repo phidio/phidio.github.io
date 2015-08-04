@@ -235,6 +235,9 @@ $(document).ready(function(){
                                 case 'PermissionDismissedError':
                                     errorTxt = "Access not granted. Please try again";
                                     break;
+                                case 'NotSupported':
+                                    errorTxt = 'Your device is not supported. Please download the app.'
+                                    break;
                                 case 'DevicesNotFoundError':
                                     errorTxt = 'No camera and/or microphone found. Try again.'
                                     break;

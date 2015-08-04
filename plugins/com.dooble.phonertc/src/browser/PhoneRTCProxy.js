@@ -280,18 +280,23 @@ var remoteVideoViews = [];
 
 module.exports = {
   getCameraAccess: function(callback) {
-    navigator.getUserMedia({video: true, audio: true}, function (stream) {
-      localStreams = [];
-      localStreams.push(stream);
+    if(typeof navigator.getUserMedia === 'undefined') {
+      callback(false, {name: 'NotSupported'})
+    }
+    else {
+      navigator.getUserMedia({video: true, audio: true}, function (stream) {
+        localStreams = [];
+        localStreams.push(stream);
 
-      localAudioTrack = stream.getAudioTracks()[0];
-      localVideoTrack = stream.getVideoTracks()[0];
+        localAudioTrack = stream.getAudioTracks()[0];
+        localVideoTrack = stream.getVideoTracks()[0];
 
-      callback(true, '')
-    },
-    function(e) {
-      callback(false, e);
-    });
+        callback(true, '')
+      },
+      function(e) {
+        callback(false, e);
+      });
+    }
   },
   createSessionObject: function (success, error, options) {
     var sessionKey = options[0];

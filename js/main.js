@@ -236,7 +236,7 @@ $(document).ready(function(){
                                     errorTxt = "Access not granted. Please try again";
                                     break;
                                 case 'NotSupported':
-                                    errorTxt = 'Your device is not supported. Please download the app.'
+                                    errorTxt = 'Your device is not supported. ' + (!AdapterJS.hasPlugin ?  'Please download the app.' : 'Please install the plugin.');
                                     break;
                                 case 'DevicesNotFoundError':
                                     errorTxt = 'No camera and/or microphone found. Try again.'

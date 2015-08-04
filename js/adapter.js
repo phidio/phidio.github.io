@@ -8,6 +8,7 @@ if(typeof exports !== 'undefined') {
 
 AdapterJS.options = AdapterJS.options || {};
 
+AdapterJS.hasPlugin = false;
 // uncomment to get virtual webcams
 // AdapterJS.options.getAllCams = true;
 
@@ -1087,6 +1088,8 @@ if (navigator.mozGetUserMedia) {
 
     var downloadLink = AdapterJS.WebRTCPlugin.pluginInfo.downloadLink;
     if(downloadLink) { // if download link
+      AdapterJS.hasPlugin = true;
+
       var popupString;
       if (AdapterJS.WebRTCPlugin.pluginInfo.portalLink) { // is portal link
        popupString = 'This website requires you to install the ' +

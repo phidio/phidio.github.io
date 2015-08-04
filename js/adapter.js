@@ -1101,7 +1101,11 @@ if (navigator.mozGetUserMedia) {
        popupString = AdapterJS.TEXT.PLUGIN.REQUIRE_INSTALLATION;
       }
 
-      AdapterJS.renderNotificationBar(popupString, AdapterJS.TEXT.PLUGIN.BUTTON, downloadLink);
+      AdapterJS.popupString = popupString;
+      AdapterJS.downloadLink = downloadLink;
+
+
+      // AdapterJS.renderNotificationBar(popupString, AdapterJS.TEXT.PLUGIN.BUTTON, downloadLink);
     } else { // no download link, just print a generic explanation
       console.log('device not supported');
       // AdapterJS.renderNotificationBar(AdapterJS.TEXT.PLUGIN.NOT_SUPPORTED);

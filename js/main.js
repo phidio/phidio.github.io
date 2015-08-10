@@ -1,4 +1,5 @@
-var socket = io.connect('http://52.28.228.51'),
+// var socket = io.connect('http://52.28.228.51'),
+var socket = io.connect('https://bart-webrtc.herokuapp.com'),
     session, username, callingTo, duplicateMessages = [];
 
 // broadcasted by socket: online users changed

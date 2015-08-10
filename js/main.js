@@ -1,4 +1,4 @@
-var socket = io.connect('https://bart-webrtc.herokuapp.com/'),
+var socket = io.connect('http://52.28.228.51'),
     session, username, callingTo, duplicateMessages = [];
 
 // broadcasted by socket: online users changed
@@ -18,8 +18,6 @@ function loginToSocket() {
     socket.on('login_successful', function(users){
         console.log('login_successful');
     });
-
-
 
     socket.on('messageReceived', onVideoMessageReceived);
 

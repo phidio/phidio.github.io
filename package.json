@@ -1,0 +1,33 @@
+{
+  "name": "phid.io",
+  "version": "1.0.0",
+  "description": "Phid.io",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run build && serve public/",
+    "dev": "serve public & npm run watch",
+    "test": "npm run build",
+    "watch": "npm run watch-js",
+    "watch-js": "watchify app/index.js -d -v -o js/bundle.js",
+    "build": "npm run build-js",
+    "build-js": "browserify app/index.js > js/bundle.js",
+    "prepublish": "npm run build"
+  },
+  "author": "Bart Jansen <b@rtjansen.nl>",
+  "license": "MIT",
+  "browserify": {
+    "transform": [
+      "babelify"
+    ]
+  },
+  "devDependencies": {
+    "browserify": "^10.2.4",
+    "serve": "^1.4.0",
+    "watchify": "^3.2.2"
+  },
+  "dependencies": {
+    "babelify": "^6.1.3",
+    "cssify": "^0.7.0",
+    "jquery": "^2.1.4"
+  }
+}

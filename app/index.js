@@ -181,8 +181,41 @@ function updateHelpText(text) {
     }, 550);
 }
 
+
 $(document).ready(function(){
     var gotAccess = false;
+
+    // open channel modal
+    $('#channel_selector').on('click', function (){
+        $('#gray-overlay').addClass('active');
+        $('#channel-modal').addClass('active');
+    });
+
+    //close modal
+    $('#modal-close, #cancel-channel').on('click', function() {
+        $('#gray-overlay').removeClass('active');
+        $('#channel-modal').removeClass('active');
+    })
+
+    //submit channel
+    $('#submit-channel').on('click', function (){
+        console.log('wtf');
+        $('#channel_selector').html($('#selected-channel').val());
+        $('#selected-channel').val('#general');
+        $('#gray-overlay').removeClass('active');
+        $('#channel-modal').removeClass('active');
+    });
+
+    $('#channel-modal .suggestion').on('click', function(e) {
+        $('#selected-channel').val('#' + ($(e.target).attr('data-rel')));
+    });
+
+    // random/private channel generator
+    $('#channel-modal #private-btn').on('click', function(e) {
+        $('#selected-channel').val('#' + Math.random().toString(36).substring(7));
+    });
+
+
 
     $('#roulette').on('click', function() {
         if(gotAccess && socket.connected) {
@@ -219,13 +252,15 @@ $(document).ready(function(){
                             setTimeout(function() {
                                 $('#help_text').html('Successfully connected.');
                                 $('#help_text').addClass('show');
-
-
                                 $('#roulette').removeClass('loading');
 
                                 setTimeout(function() {
+                                    // expiremental
+                                    window.history.pushState('Object', 'Soccer', '/#soccer');
+
                                     $('.spinner').hide();
                                     $('#roulette_txt').html('ROULETTE');
+                                    $('#channel').addClass('hidden');
                                     $('#roulette_txt').show();
                                     $('body').addClass('connected');
 

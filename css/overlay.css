@@ -1,0 +1,19 @@
+#gray-overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    opacity: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 0;
+    background-color: #000;
+    -webkit-transition: opacity .2s linear;
+    -moz-transition: opacity .2s linear;
+    -o-transition: opacity .2s linear;
+    transition: opacity .2s linear;
+}
+
+#gray-overlay.active {
+    opacity: .6;
+    z-index: 1040;
+}

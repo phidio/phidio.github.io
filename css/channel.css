@@ -1,0 +1,146 @@
+
+#channel {
+    text-align: center;
+    color: #fff;
+    font-weight: 300;
+    font-size:28px;
+    line-height: 36px;
+    border-radius: 30px;
+    position: absolute;
+    z-index: 1000;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    top: 50%;
+    transform: translateY(-9vh);
+    -webkit-transform: translateY(-9vh);
+      /*margin-top: 20px;*/
+    max-width: 600px;
+    width: 100%;
+    width: calc(100% - 20px);
+    height: 60px;
+
+    transition: opacity .5s;
+    -webkit-transition: -webkit-opacity .5s;
+}
+
+
+#channel_selector {
+    font-weight: normal;
+    color: #aaa;
+    cursor: pointer;
+}
+
+
+#channel.hidden {
+    opacity: 0;
+}
+
+
+#channel-modal {
+    box-shadow: rgba(0, 0, 0, 0.6) 0px 1px 10px 0px;
+    box-sizing: border-box;
+    background: #2d2e33;
+    color: #fff;
+    margin: 0 auto;
+    width: 800px;
+    height: 600px;
+    position: absolute;
+    left: 50%;
+    top: 0;
+    padding: 30px;
+    margin-left: -400px;
+    z-index: 1100;
+    transform: translateY(-50vh);
+    -webkit-transform: translateY(-50vh);
+
+    transition: transform .5s;
+    -webkit-transition: -webkit-transform .5s;
+}
+
+#channel-modal #modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 26px;
+    cursor: pointer;
+    color: #bbb;
+}
+
+#channel-modal.active {
+    transform: translateY(10vh);
+    -webkit-transform: translateY(10vh);
+}
+
+#channel-modal h1 {
+    font-weight: 300;
+    font-size: 34px;
+    line-height: 50px;
+    margin: 0;
+    padding: 0;
+}
+
+#channel-modal .modal-caption {
+    color: #bbb;
+    font-size: 18px;
+    margin-top: 10px;
+    line-height: 28px;
+}
+
+
+#channel-modal input#selected-channel {
+    height: 60px;
+    width: 400px;
+    border-radius: 5px;
+    border: 0px;
+    outline: 0px;
+    font-family: Roboto;
+    margin: 30px 0;
+    text-indent: 10px;
+    font-size: 30px;
+    line-height: 60px;
+    padding: 0;
+    float: left;
+}
+
+#channel-modal .modal-button {
+    margin: 30px 20px;
+    height: 60px;
+    width: 200px;
+    cursor: pointer;
+    border-radius: 5px;
+    color: #fff;
+    text-align: center;
+    line-height: 60px;
+    font-weight: 300;
+    font-size: 20px;
+}
+
+#channel-modal #private-btn {
+    float: left;
+    background: #84c37d;
+}
+
+#channel-modal .suggestion {
+    float: left;
+    color: #bbb;
+    cursor: pointer;
+    width: 33%;
+    height: 80px;
+    font-size: 30px;
+    text-align: center;
+    line-height: 80px;
+}
+
+
+#channel-modal #cancel-channel {
+    background: #999;
+    float: right;
+    margin: 30px 20px;
+}
+
+#channel-modal #submit-channel {
+    margin: 30px 0px;
+    background: #ff3366;
+    float: right;
+}

@@ -228,6 +228,11 @@ footer .download-links a:hover {
   -webkit-transform: translateY(30vh);
 }
 
+#roulette.hidden {
+  transform: translateY(60vh);
+  -webkit-transform: translateY(60vh);
+}
+
 #roulette.loading {
   width: 60px;
 }

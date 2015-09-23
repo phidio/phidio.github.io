@@ -1,3 +1,6 @@
+//init vars
+var __TemWebRTCReady0, webrtcDetectedType, webrtcDetectedDCSupport, checkMediaDataChannelSettings, checkIceConnectionState, createIceServer, createIceServers, RTCPeerConnection, getUserMedia, attachMediaStream, reattachMediaStream, webrtcDetectedBrowser, webrtcDetectedVersion;
+
 // Adapter's interface.
 var AdapterJS = AdapterJS || {};
 

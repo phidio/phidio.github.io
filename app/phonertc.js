@@ -1,4 +1,6 @@
-cordova.define("com.dooble.phonertc.PhoneRTC", function(require, exports, module) { var exec = require('cordova/exec');
+var PhoneRTCProxy = require('./PhoneRTCProxy');
+var bowser = require('bowser');
+
 var videoViewConfig;
 
 function createUUID() {
@@ -68,7 +70,8 @@ function Session(config) {
     }
   }
 
-  exec(onSendMessage, null, 'PhoneRTCPlugin', 'createSessionObject', [self.sessionKey, config]);
+  // exec(onSendMessage, null, 'PhoneRTCPlugin', 'createSessionObject', [self.sessionKey, config]);
+  PhoneRTCProxy.createSessionObject(onSendMessage, null,  [self.sessionKey, config]);
 };
 
 Session.prototype.on = function (eventName, fn) {
@@ -125,37 +128,55 @@ Session.prototype.off = function (eventName, fn) {
 };
 
 Session.prototype.call = function (success, error) {
-  exec(success, error, 'PhoneRTCPlugin', 'call', [{
+  // exec(success, error, 'PhoneRTCPlugin', 'call', [{
+  //   sessionKey: this.sessionKey
+  // }]);
+
+  PhoneRTCProxy.call(success, error, [{
     sessionKey: this.sessionKey
   }]);
 };
 
 Session.prototype.receiveMessage = function (data) {
-  exec(null, null, 'PhoneRTCPlugin', 'receiveMessage', [{
+  PhoneRTCProxy.receiveMessage(null, null, [{
     sessionKey: this.sessionKey,
     message: JSON.stringify(data)
   }]);
+
+  // exec(null, null, 'PhoneRTCPlugin', 'receiveMessage', [{
+  //   sessionKey: this.sessionKey,
+  //   message: JSON.stringify(data)
+  // }]);
 };
 
 Session.prototype.renegotiate = function () {
-  exec(null, null, 'PhoneRTCPlugin', 'renegotiate', [{
+  PhoneRTCProxy.renegotiate(null, null, [{
     sessionKey: this.sessionKey,
     config: this.config
   }]);
+
+
+  // exec(null, null, 'PhoneRTCPlugin', 'renegotiate', [{
+  //   sessionKey: this.sessionKey,
+  //   config: this.config
+  // }]);
 };
 
 Session.prototype.close = function () {
-  exec(null, null, 'PhoneRTCPlugin', 'disconnect', [{
+  PhoneRTCProxy.disconnect(null, null, [{
     sessionKey: this.sessionKey
   }]);
-};
 
-exports.Session = Session;
+  // exec(null, null, 'PhoneRTCPlugin', 'disconnect', [{
+  //   sessionKey: this.sessionKey
+  // }]);
+};
 
 function getLayoutParams(videoElement) {
   var boundingRect = videoElement.getBoundingClientRect();
-
-  if (cordova.platformId === 'android') {
+  // todo find a solution to detect android!
+  // if (cordova.platformId === 'android') {
+  if(bowser.android) {
     return {
       position: [boundingRect.left + window.scrollX, boundingRect.top + window.scrollY],
       size: [videoElement.offsetWidth, videoElement.offsetHeight]
@@ -180,12 +201,16 @@ function setVideoView(config) {
 
   config.devicePixelRatio = window.devicePixelRatio || 2;
 
-  exec(null, null, 'PhoneRTCPlugin', 'setVideoView', [config]);
+  PhoneRTCProxy.setVideoView(null, null, [config]);
+
+  // exec(null, null, 'PhoneRTCPlugin', 'setVideoView', [config]);
 
   if (container) {
     config.container = container;
   }
 };
+
+
 
 document.addEventListener('touchmove', function () {
   if (videoViewConfig) {
@@ -193,13 +218,7 @@ document.addEventListener('touchmove', function () {
   }
 });
 
-exports.setVideoView = setVideoView;
-
-exports.hideVideoView = function () {
-  exec(null, null, 'PhoneRTCPlugin', 'hideVideoView', []);
+module.exports = {
+  setVideoView: setVideoView,
+  Session: Session
 };
-
-exports.showVideoView = function () {
-  exec(null, null, 'PhoneRTCPlugin', 'showVideoView', []);
-};
-});

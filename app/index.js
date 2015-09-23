@@ -1,8 +1,9 @@
-require('../js/adapter');
-require('../cordova2.js');
+require('./adapter');
 
-var cordova = window.cordova; //hacky
+var phonertc = require('./phonertc');
+var PhoneRTCProxy = require('./PhoneRTCProxy');
 var $ = require('jquery');
+var io = window.io;
 
 var socket = io.connect('https://vidch.at'),
     session, username, callingTo, duplicateMessages = [];
@@ -90,9 +91,9 @@ function loginToSocket() {
                 video: true
             }
         }
-        session = new cordova.plugins.phonertc.Session(config);
+        session = new phonertc.Session(config);
 
-        cordova.plugins.phonertc.setVideoView({
+        phonertc.setVideoView({
             container: document.getElementById('videoContainer'),
             local: {
                 position: [0, 0],
@@ -208,7 +209,7 @@ $(document).ready(function(){
 
 
                 setTimeout(function() {
-                    cordova.plugins.rtcproxy.getCameraAccess(function(success, errorMsg) {
+                    PhoneRTCProxy.getCameraAccess(function(success, errorMsg) {
                         $('#help_text').removeClass('show');
 
                         if(success) {

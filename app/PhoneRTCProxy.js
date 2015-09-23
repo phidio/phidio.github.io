@@ -1,4 +1,4 @@
-cordova.define("com.dooble.phonertc.PhoneRTCProxy", function(require, exports, module) { var PeerConnection = window.webkitRTCPeerConnection || window.mozRTCPeerConnection || window.RTCPeerConnection ;
+var PeerConnection = window.webkitRTCPeerConnection || window.mozRTCPeerConnection || window.RTCPeerConnection ;
 var IceCandidate = window.mozRTCIceCandidate || window.RTCIceCandidate;
 var SessionDescription = window.mozRTCSessionDescription || window.RTCSessionDescription;
 var MediaStream = window.webkitMediaStream || window.mozMediaStream || window.MediaStream;
@@ -542,7 +542,3 @@ function onSessionDisconnect(sessionKey) {
     // localAudioTrack = null;
   }
 }
-
-require("cordova/exec/proxy").add("PhoneRTCPlugin", module.exports);
-
-});

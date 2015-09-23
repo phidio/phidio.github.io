@@ -192,18 +192,21 @@ $(document).ready(function(){
     });
 
     //close modal
-    $('#modal-close, #cancel-channel').on('click', function() {
+    $('#modal-close, #cancel-channel, #gray-overlay.active').on('click', function() {
         $('#gray-overlay').removeClass('active');
         $('#channel-modal').removeClass('active');
     })
 
     //submit channel
     $('#submit-channel').on('click', function (){
-        console.log('wtf');
-        $('#channel_selector').html($('#selected-channel').val());
-        $('#selected-channel').val('#general');
-        $('#gray-overlay').removeClass('active');
-        $('#channel-modal').removeClass('active');
+        var channelVal = $('#selected-channel').val();
+
+        if(channelVal.length > 1 && channelVal.substring(0,1) === '#') {
+            $('#channel_selector').html(channelVal);
+            $('#selected-channel').val('#general');
+            $('#gray-overlay').removeClass('active');
+            $('#channel-modal').removeClass('active');
+        }
     });
 
     $('#channel-modal .suggestion').on('click', function(e) {

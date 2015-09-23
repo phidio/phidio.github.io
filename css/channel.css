@@ -51,8 +51,8 @@
     padding: 30px;
     margin-left: -400px;
     z-index: 1100;
-    transform: translateY(-50vh);
-    -webkit-transform: translateY(-50vh);
+    transform: translateY(-100%);
+    -webkit-transform: translateY(-100%);
 
     transition: transform .5s;
     -webkit-transition: -webkit-transform .5s;

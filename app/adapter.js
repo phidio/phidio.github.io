@@ -1177,5 +1177,6 @@ if (navigator.mozGetUserMedia) {
 }
 
 module.exports = {
-  AdapterJS:  AdapterJS
+  AdapterJS:  AdapterJS,
+  attachMediaStream: attachMediaStream
 }

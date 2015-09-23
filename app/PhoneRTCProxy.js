@@ -1,3 +1,5 @@
+var AdapterJS = require('./adapter');
+
 var PeerConnection = window.webkitRTCPeerConnection || window.mozRTCPeerConnection || window.RTCPeerConnection ;
 var IceCandidate = window.mozRTCIceCandidate || window.RTCIceCandidate;
 var SessionDescription = window.mozRTCSessionDescription || window.RTCSessionDescription;
@@ -373,7 +375,7 @@ module.exports = {
           }
           else {
             document.body.appendChild(localVideoView);
-            attachMediaStream(localVideoView, localStreams[0], false);
+            AdapterJS.attachMediaStream(localVideoView, localStreams[0], false);
 
             localVideoView = document.querySelector('#localStream');
           }
@@ -414,7 +416,7 @@ function addRemoteStream(stream) {
   }
   else {
     document.body.appendChild(videoView);
-    attachMediaStream(videoView, stream, true);
+    AdapterJS.attachMediaStream(videoView, stream, true);
   }
 
   remoteVideoViews.push(videoView);

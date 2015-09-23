@@ -1,4 +1,4 @@
-require('./adapter');
+var AdapterJS = require('./adapter');
 
 var phonertc = require('./phonertc');
 var PhoneRTCProxy = require('./PhoneRTCProxy');

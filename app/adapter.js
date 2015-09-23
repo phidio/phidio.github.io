@@ -1,5 +1,5 @@
 //init vars
-var __TemWebRTCReady0, webrtcDetectedType, webrtcDetectedDCSupport, checkMediaDataChannelSettings, checkIceConnectionState, createIceServer, createIceServers, RTCPeerConnection, getUserMedia, attachMediaStream, reattachMediaStream, webrtcDetectedBrowser, webrtcDetectedVersion;
+var __TemWebRTCReady0, webrtcDetectedType, webrtcDetectedDCSupport, checkMediaDataChannelSettings, RTCSessionDescription, RTCIceCandidate, isIE, checkIceConnectionState, createIceServer, createIceServers, RTCPeerConnection, getUserMedia, attachMediaStream, reattachMediaStream, webrtcDetectedBrowser, webrtcDetectedVersion;
 
 // Adapter's interface.
 var AdapterJS = AdapterJS || {};
@@ -1174,4 +1174,8 @@ if (navigator.mozGetUserMedia) {
     AdapterJS.WebRTCPlugin.pluginInfo.plugName,
     AdapterJS.WebRTCPlugin.defineWebRTCInterface,
     AdapterJS.WebRTCPlugin.pluginNeededButNotInstalledCb);
+}
+
+module.exports = {
+  AdapterJS:  AdapterJS
 }

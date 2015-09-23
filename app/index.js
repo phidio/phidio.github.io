@@ -192,7 +192,7 @@ $(document).ready(function(){
     });
 
     //close modal
-    $('#modal-close, #cancel-channel, #gray-overlay.active').on('click', function() {
+    $('#modal-close, #cancel-channel, #gray-overlay').on('click', function() {
         $('#gray-overlay').removeClass('active');
         $('#channel-modal').removeClass('active');
     })

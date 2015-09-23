@@ -1,7 +1,7 @@
 var AdapterJS = require('./adapter');
 
 var PeerConnection = window.webkitRTCPeerConnection || window.mozRTCPeerConnection || window.RTCPeerConnection ;
-var IceCandidate = window.mozRTCIceCandidate || window.RTCIceCandidate;
+// var IceCandidate = window.mozRTCIceCandidate || window.RTCIceCandidate;
 var SessionDescription = window.mozRTCSessionDescription || window.RTCSessionDescription;
 var MediaStream = window.webkitMediaStream || window.mozMediaStream || window.MediaStream;
 
@@ -146,6 +146,7 @@ Session.prototype.sendOffer = function () {
   }, function (error) {
     console.log(error);
   }, { mandatory: { OfferToReceiveAudio: true, OfferToReceiveVideo: !!videoConfig }});
+  // }, { mandatory: { offerToReceiveAudio: true, offerToReceiveVideo: !!videoConfig }}); //for FF
 }
 
 Session.prototype.sendAnswer = function () {

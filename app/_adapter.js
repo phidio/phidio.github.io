@@ -3,6 +3,12 @@ var __TemWebRTCReady0, webrtcDetectedType, webrtcDetectedDCSupport, checkMediaDa
 
 // Adapter's interface.
 var AdapterJS = AdapterJS || {};
+
+// Browserify compatibility
+if(typeof exports !== 'undefined') {
+  module.exports = AdapterJS;
+}
+
 AdapterJS.options = AdapterJS.options || {};
 
 AdapterJS.hasPlugin = false;
@@ -320,7 +326,7 @@ AdapterJS.renderNotificationBar = function (text, buttonText, buttonLink, openNe
     i.style.transition = 'all .5s ease-out';
   }
   document.body.appendChild(i);
-  var c = (i.contentWindow) ? i.contentWindow :
+  c = (i.contentWindow) ? i.contentWindow :
     (i.contentDocument.document) ? i.contentDocument.document : i.contentDocument;
   c.document.open();
   c.document.write('<span style="display: inline-block; font-family: Helvetica, Arial,' +
@@ -791,11 +797,6 @@ if (navigator.mozGetUserMedia) {
   /* jshint +W035 */
 
   AdapterJS.WebRTCPlugin.callWhenPluginReady = function (callback) {
-    // BJ modification
-    if (AdapterJS.WebRTCPlugin.pluginState === 3) {
-      AdapterJS.WebRTCPlugin.pluginState = AdapterJS.WebRTCPlugin.PLUGIN_STATES.READY;
-    }
-
     if (AdapterJS.WebRTCPlugin.pluginState === AdapterJS.WebRTCPlugin.PLUGIN_STATES.READY) {
       // Call immediately if possible
       // Once the plugin is set, the code will always take this path
@@ -1047,13 +1048,16 @@ if (navigator.mozGetUserMedia) {
 
         var height = '';
         var width = '';
-        if (element.clientWidth || element.clientHeight) {
-          width = element.clientWidth;
-          height = element.clientHeight;
+        if (element.getBoundingClientRect) {
+          var rectObject = element.getBoundingClientRect();
+          width = rectObject.width + 'px';
+          height = rectObject.height + 'px';
         }
-        else if (element.width || element.height) {
+        else if (element.width) {
           width = element.width;
           height = element.height;
+        } else {
+          // TODO: What scenario could bring us here?
         }
 
         element.parentNode.insertBefore(frag, element);
@@ -1072,7 +1076,19 @@ if (navigator.mozGetUserMedia) {
         element.setStreamId(streamId);
       }
       var newElement = document.getElementById(elementId);
-      AdapterJS.forwardEventHandlers(newElement, element, Object.getPrototypeOf(element));
+      newElement.onplaying = (element.onplaying) ? element.onplaying : function (arg) {};
+      newElement.onplay    = (element.onplay)    ? element.onplay    : function (arg) {};
+      newElement.onclick   = (element.onclick)   ? element.onclick   : function (arg) {};
+      if (isIE) { // on IE the event needs to be plugged manually
+        newElement.attachEvent('onplaying', newElement.onplaying);
+        newElement.attachEvent('onplay', newElement.onplay);
+        newElement._TemOnClick = function (id) {
+          var arg = {
+            srcElement : document.getElementById(id)
+          };
+          newElement.onclick(arg);
+        };
+      }
 
       return newElement;
     };
@@ -1094,27 +1110,6 @@ if (navigator.mozGetUserMedia) {
         console.log('Could not find the stream associated with this element');
       }
     };
-
-    AdapterJS.forwardEventHandlers = function (destElem, srcElem, prototype) {
-
-      var properties = Object.getOwnPropertyNames( prototype );
-
-      for(var prop in properties) {
-        var propName = properties[prop];
-        if(propName.slice(0,2) == 'on' && srcElem[propName] != null) {
-          if(isIE){
-            destElem.attachEvent(propName,srcElem[propName]);
-          } else {
-            destElem.addEventListener(propName.slice(2), srcElem[propName], false)
-          }
-        }
-      }
-
-      var subPrototype = Object.getPrototypeOf(prototype)
-      if(subPrototype != null) {
-        AdapterJS.forwardEventHandlers(destElem, srcElem, subPrototype);
-      }
-    }
 
     RTCIceCandidate = function (candidate) {
       if (!candidate.sdpMid) {
@@ -1183,8 +1178,5 @@ if (navigator.mozGetUserMedia) {
 
 module.exports = {
   AdapterJS:  AdapterJS,
-  attachMediaStream: attachMediaStream,
-  RTCPeerConnection: RTCPeerConnection,
-  RTCSessionDescription: RTCSessionDescription,
-  RTCIceCandidate: RTCIceCandidate
-};
+  attachMediaStream: attachMediaStream
+}

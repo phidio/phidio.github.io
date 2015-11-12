@@ -280,8 +280,8 @@ $(document).ready(function(){
                                     errorTxt = "Access not granted. Please try again";
                                     break;
                                 case 'NotSupported':
-                                    if(AdapterJS.hasPlugin) {
-                                        AdapterJS.renderNotificationBar(AdapterJS.popupString, AdapterJS.TEXT.PLUGIN.BUTTON, AdapterJS.downloadLink);
+                                    if(AdapterJS.AdapterJS.hasPlugin) {
+                                        AdapterJS.AdapterJS.renderNotificationBar(AdapterJS.AdapterJS.popupString, AdapterJS.AdapterJS.TEXT.PLUGIN.BUTTON, AdapterJS.AdapterJS.downloadLink);
                                     }
                                     errorTxt = 'Your device is not supported. ' + (!AdapterJS.hasPlugin ?  'Please download the app.' : 'Please install the plugin.');
                                     break;

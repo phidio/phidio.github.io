@@ -1,10 +1,10 @@
 var AdapterJS = require('./adapter');
 
-var PeerConnection = window.webkitRTCPeerConnection || window.mozRTCPeerConnection || window.RTCPeerConnection ;
+var PeerConnection = window.webkitRTCPeerConnection || window.mozRTCPeerConnection || window.RTCPeerConnection || AdapterJS.RTCPeerConnection;
 // var IceCandidate = window.mozRTCIceCandidate || window.RTCIceCandidate;
-var SessionDescription = window.mozRTCSessionDescription || window.RTCSessionDescription;
+var SessionDescription = window.mozRTCSessionDescription || window.RTCSessionDescription || AdapterJS.RTCSessionDescription;
 var MediaStream = window.webkitMediaStream || window.mozMediaStream || window.MediaStream;
-
+var RTCIceCandidate = window.RTCIceCandidate || AdapterJS.RTCIceCandidate;
 navigator.getUserMedia = navigator.getUserMedia || navigator.mozGetUserMedia || navigator.webkitGetUserMedia;
 
 var localStreams = [];
@@ -262,17 +262,17 @@ Session.prototype.disconnect = function (sendByeMessage) {
   }
 
   if(this.peerConnection) {
-  if (sendByeMessage) {
-    this.sendMessage({ type: 'bye' });
+    if (sendByeMessage) {
+      this.sendMessage({ type: 'bye' });
+    }
+
+      this.peerConnection.close();
+    this.peerConnection = null;
+
+    this.sendMessage({ type: '__disconnected' });
+
+    onSessionDisconnect(this.sessionKey);
   }
-
-    this.peerConnection.close();
-  this.peerConnection = null;
-
-  this.sendMessage({ type: '__disconnected' });
-
-  onSessionDisconnect(this.sessionKey);
-}
 };
 
 

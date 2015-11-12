@@ -258,8 +258,9 @@ $(document).ready(function(){
                                 $('#roulette').removeClass('loading');
 
                                 setTimeout(function() {
+                                    var channelName = $('#channel_selector').html().substring(1);
                                     // expiremental
-                                    window.history.pushState('Object', 'Soccer', '/#soccer');
+                                    window.history.pushState('Object', channelName.charAt(0).toUpperCase() + channelName.slice(1), '/#' + channelName);
 
                                     $('.spinner').hide();
                                     $('#roulette_txt').html('ROULETTE');
@@ -308,10 +309,6 @@ $(document).ready(function(){
 
                 }, 750)
             }, 450);
-
-
-
-
         }
     })
 });

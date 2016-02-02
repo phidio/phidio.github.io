@@ -1,6 +1,39 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
+var $ = require('jquery');
+
+function CallStatistics() {
+    console.log('loaded');
+}
+
+CallStatistics.prototype.initialize = function () {
+    this.callStats = new callstats($, io, jsSHA);
+
+    //initialize the app with application tokens
+    var AppID = 415266112;
+    var AppSecret = '1e61zw+ZNXLV9G42am4iGwEVYhk=';
+
+    function initCallback(err, msg) {
+        console.log("Initializing Status: err=" + err + " msg=" + msg);
+    }
+
+    //userID is generated or given by the origin server
+    this.callStats.initialize(AppID, AppSecret, 'local', initCallback, function (e) {
+        console.log('stats', e);
+    });
+};
+
+CallStatistics.prototype.monitorCall = function (peerConnection) {
+    var usage = this.callStats.fabricUsage.multiplex;
+    this.callStats.addNewFabric(peerConnection, 'remote', usage, 'conference');
+};
+
+module.exports = CallStatistics;
+
+},{"jquery":7}],2:[function(require,module,exports){
+'use strict';
+
 var AdapterJS = require('./adapter');
 
 var PeerConnection = window.webkitRTCPeerConnection || window.mozRTCPeerConnection || window.RTCPeerConnection || AdapterJS.RTCPeerConnection;
@@ -192,6 +225,14 @@ Session.prototype.call = function () {
     if (self.config.isInitiator) {
       self.sendOffer.call(self);
     }
+
+    self.peerConnection.onnegotiationneeded = function () {
+      // pc is created, tell callstats about it
+      // pick a fabricUsage enumeration, if pc is sending both media and data: use multiplex.
+      // var usage = callStats.fabricUsage.multiplex;
+      // callStats.addNewFabric(peerConnection, 'remote', usage, 'conference');
+      cstats.monitorCall(self.peerConnection);
+    };
   }
 
   var missingStreams = {
@@ -527,7 +568,7 @@ function onSessionDisconnect(sessionKey) {
   }
 }
 
-},{"./adapter":2}],2:[function(require,module,exports){
+},{"./adapter":3}],3:[function(require,module,exports){
 //init vars
 'use strict';
 
@@ -1644,7 +1685,7 @@ module.exports = {
   RTCIceCandidate: RTCIceCandidate
 };
 
-},{}],3:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 'use strict';
 
 var AdapterJS = require('./adapter');
@@ -1653,6 +1694,12 @@ var phonertc = require('./phonertc');
 var PhoneRTCProxy = require('./PhoneRTCProxy');
 var $ = require('jquery');
 var io = window.io;
+
+// for webrtc research
+var CallStatistics = require('./CallStatistics');
+
+window.cstats = new CallStatistics();
+window.cstats.initialize();
 
 var socket = io.connect('https://vidch.at'),
     session,
@@ -1713,14 +1760,20 @@ function loginToSocket() {
             dataType: "json",
             url: "https://api.xirsys.com/getIceServers",
             data: {
-                ident: "dhiraj",
-                secret: "bb56af66-b4d4-4e7e-8994-98199a4e4c36",
-                domain: "github.com",
-                application: "sample-chat-app",
-                room: "sample-chat-room",
+                ident: 'bartjansen',
+                secret: '73ef5416-c8d2-11e5-9fb0-a9888ed06544',
+                domain: 'phid.io',
+                application: 'default',
+                room: 'default',
+                // ident: "dhiraj",
+                // secret: "bb56af66-b4d4-4e7e-8994-98199a4e4c36",
+                // domain: "github.com",
+                // application: "sample-chat-app",
+                // room: "sample-chat-room",
                 secure: 1
             },
             success: function success(data, status) {
+                console.log(data.d.iceServers[2]);
                 startCall(data.d.iceServers[2], isInitiator);
             },
             async: false
@@ -1957,7 +2010,7 @@ $(document).ready(function () {
     });
 });
 
-},{"./PhoneRTCProxy":1,"./adapter":2,"./phonertc":4,"jquery":6}],4:[function(require,module,exports){
+},{"./CallStatistics":1,"./PhoneRTCProxy":2,"./adapter":3,"./phonertc":5,"jquery":7}],5:[function(require,module,exports){
 'use strict';
 
 var PhoneRTCProxy = require('./PhoneRTCProxy');
@@ -2184,7 +2237,7 @@ module.exports = {
   Session: Session
 };
 
-},{"./PhoneRTCProxy":1,"bowser":5}],5:[function(require,module,exports){
+},{"./PhoneRTCProxy":2,"bowser":6}],6:[function(require,module,exports){
 /*!
   * Bowser - a browser detector
   * https://github.com/ded/bowser
@@ -2477,7 +2530,7 @@ module.exports = {
   return bowser
 });
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.4
  * http://jquery.com/
@@ -11689,4 +11742,4 @@ return jQuery;
 
 }));
 
-},{}]},{},[3]);
+},{}]},{},[4]);

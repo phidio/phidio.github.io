@@ -193,6 +193,14 @@ Session.prototype.call = function () {
     if (self.config.isInitiator) {
       self.sendOffer.call(self);
     }
+
+    self.peerConnection.onnegotiationneeded = function () {
+        // pc is created, tell callstats about it
+        // pick a fabricUsage enumeration, if pc is sending both media and data: use multiplex.
+        // var usage = callStats.fabricUsage.multiplex;
+        // callStats.addNewFabric(peerConnection, 'remote', usage, 'conference');
+        cstats.monitorCall(self.peerConnection);
+    };
   }
 
   var missingStreams = {

@@ -5,6 +5,13 @@ var PhoneRTCProxy = require('./PhoneRTCProxy');
 var $ = require('jquery');
 var io = window.io;
 
+// for webrtc research
+var CallStatistics = require('./CallStatistics');
+
+window.cstats = new CallStatistics();
+window.cstats.initialize();
+
+
 var socket = io.connect('https://vidch.at'),
     session, username, callingTo, duplicateMessages = [];
 
@@ -61,14 +68,20 @@ function loginToSocket() {
             dataType: "json",
             url: "https://api.xirsys.com/getIceServers",
             data: {
-                ident: "dhiraj",
-                secret: "bb56af66-b4d4-4e7e-8994-98199a4e4c36",
-                domain: "github.com",
-                application: "sample-chat-app",
-                room: "sample-chat-room",
+                ident: 'bartjansen',
+                secret: '73ef5416-c8d2-11e5-9fb0-a9888ed06544',
+                domain: 'phid.io',
+                application: 'default',
+                room: 'default',
+                // ident: "dhiraj",
+                // secret: "bb56af66-b4d4-4e7e-8994-98199a4e4c36",
+                // domain: "github.com",
+                // application: "sample-chat-app",
+                // room: "sample-chat-room",
                 secure: 1
             },
             success: function (data, status) {
+                console.log(data.d.iceServers[2]);
                 startCall(data.d.iceServers[2], isInitiator);
             },
             async: false

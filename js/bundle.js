@@ -1750,34 +1750,36 @@ function loginToSocket() {
     });
 
     function call(isInitiator) {
-        $.ajax({
-            type: "POST",
-            beforeSend: function beforeSend(xhr) {
-                if (xhr.overrideMimeType) {
-                    xhr.overrideMimeType("application/json");
-                }
-            },
-            dataType: "json",
-            url: "https://api.xirsys.com/getIceServers",
-            data: {
-                ident: 'bartjansen',
-                secret: '73ef5416-c8d2-11e5-9fb0-a9888ed06544',
-                domain: 'phid.io',
-                application: 'default',
-                room: 'default',
-                // ident: "dhiraj",
-                // secret: "bb56af66-b4d4-4e7e-8994-98199a4e4c36",
-                // domain: "github.com",
-                // application: "sample-chat-app",
-                // room: "sample-chat-room",
-                secure: 1
-            },
-            success: function success(data, status) {
-                console.log(data.d.iceServers[2]);
-                startCall(data.d.iceServers[2], isInitiator);
-            },
-            async: false
-        });
+        startCall({ credential: 'root', url: 'turn:user@54.93.57.223:80?transport=tcp', username: 'user' }, isInitiator);
+
+        // $.ajax({
+        //     type: "POST",
+        //     beforeSend: function(xhr){
+        //         if (xhr.overrideMimeType) {
+        //             xhr.overrideMimeType("application/json");
+        //         }
+        //     },
+        //     dataType: "json",
+        //     url: "https://api.xirsys.com/getIceServers",
+        //     data: {
+        //         ident: 'bartjansen',
+        //         secret: '73ef5416-c8d2-11e5-9fb0-a9888ed06544',
+        //         domain: 'phid.io',
+        //         application: 'default',
+        //         room: 'default',
+        //         // ident: "dhiraj",
+        //         // secret: "bb56af66-b4d4-4e7e-8994-98199a4e4c36",
+        //         // domain: "github.com",
+        //         // application: "sample-chat-app",
+        //         // room: "sample-chat-room",
+        //         secure: 1
+        //     },
+        //     success: function (data, status) {
+        //         console.log(data.d.iceServers[2]);
+        //         startCall(data.d.iceServers[2], isInitiator);
+        //     },
+        //     async: false
+        // });
     }
 
     function startCall(data, isInitiator) {

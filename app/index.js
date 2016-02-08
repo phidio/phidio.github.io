@@ -51,28 +51,7 @@ function loginToSocket() {
     });
 
     function call(isInitiator){
-        $.ajax({
-            type: "POST",
-            beforeSend: function(xhr){
-                if (xhr.overrideMimeType) {
-                    xhr.overrideMimeType("application/json");
-                }
-            },
-            dataType: "json",
-            url: "https://api.xirsys.com/getIceServers",
-            data: {
-                ident: "dhiraj",
-                secret: "bb56af66-b4d4-4e7e-8994-98199a4e4c36",
-                domain: "github.com",
-                application: "sample-chat-app",
-                room: "sample-chat-room",
-                secure: 1
-            },
-            success: function (data, status) {
-                startCall(data.d.iceServers[2], isInitiator);
-            },
-            async: false
-        });
+        startCall({credential: 'root', url: 'turn:user@54.93.57.223:80?transport=tcp', username: 'user'}, isInitiator);
     }
 
     function startCall(data, isInitiator){

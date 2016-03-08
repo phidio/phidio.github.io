@@ -1,7 +1,7 @@
 var $ = require('jquery');
 
 function CallStatistics() {
-    console.log('loaded');
+    this.initialize();
 }
 
 CallStatistics.prototype.initialize = function() {

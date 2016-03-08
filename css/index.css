@@ -21,7 +21,7 @@ html, body {
         height: 100%;
     min-height: 100%;
         width: 100%;
-    /*overflow: hidden;*/
+    overflow: hidden;
 }
 
 body {
@@ -175,6 +175,7 @@ footer .download-links a:hover {
     max-width: 100%;
     /*object-fit: cover;*/
     transition: opacity 1s;
+    -webkit-transition: opacity 1s;
     width: 100%;
     position: absolute;
     z-index: 998;
@@ -187,6 +188,8 @@ footer .download-links a:hover {
     top: 10px;
     left: 10px;
     z-index: 999;
+    transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
 }
 
 #roulette {
@@ -397,10 +400,6 @@ body.inCall #user-container {
     }
 }
 
-
-
-
-
 @media only screen and (max-width: 400px) {
     nav#top-nav .top-logo {
       float: none;
@@ -421,6 +420,4 @@ body.inCall #user-container {
       margin-top: 10px;
       font-size: 18px;
     }
-
-
 }

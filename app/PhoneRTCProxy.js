@@ -200,6 +200,14 @@ Session.prototype.call = function () {
         // var usage = callStats.fabricUsage.multiplex;
         // callStats.addNewFabric(peerConnection, 'remote', usage, 'conference');
         cstats.monitorCall(self.peerConnection);
+
+        window.callInfo = [];
+
+        window.getStats(self.peerConnection, function(e) {
+            window.callInfo.push(e);
+        },
+        1000)
+
     };
   }
 

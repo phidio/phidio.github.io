@@ -2,47 +2,26 @@
 1 verbose cli [ '/usr/local/Cellar/node/5.1.0/bin/node',
 1 verbose cli   '/usr/local/bin/npm',
 1 verbose cli   'run',
-1 verbose cli   'dev' ]
+1 verbose cli   'start-dev' ]
 2 info using npm@3.5.3
 3 info using node@v5.1.0
-4 verbose run-script [ 'predev', 'dev', 'postdev' ]
-5 info lifecycle phid.io@1.0.0~predev: phid.io@1.0.0
-6 silly lifecycle phid.io@1.0.0~predev: no script for predev, continuing
-7 info lifecycle phid.io@1.0.0~dev: phid.io@1.0.0
-8 verbose lifecycle phid.io@1.0.0~dev: unsafe-perm in lifecycle true
-9 verbose lifecycle phid.io@1.0.0~dev: PATH: /usr/local/lib/node_modules/npm/bin/node-gyp-bin:/Users/bartjansen/htdocs/phidio.github.io/node_modules/.bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/TeX/texbin
-10 verbose lifecycle phid.io@1.0.0~dev: CWD: /Users/bartjansen/htdocs/phidio.github.io
-11 silly lifecycle phid.io@1.0.0~dev: Args: [ '-c', 'node ./bin/dev.js' ]
-12 silly lifecycle phid.io@1.0.0~dev: Returned: code: 1  signal: null
-13 info lifecycle phid.io@1.0.0~dev: Failed to exec dev script
-14 verbose stack Error: phid.io@1.0.0 dev: `node ./bin/dev.js`
-14 verbose stack Exit status 1
-14 verbose stack     at EventEmitter.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/lifecycle.js:232:16)
-14 verbose stack     at emitTwo (events.js:87:13)
-14 verbose stack     at EventEmitter.emit (events.js:172:7)
-14 verbose stack     at ChildProcess.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/spawn.js:24:14)
-14 verbose stack     at emitTwo (events.js:87:13)
-14 verbose stack     at ChildProcess.emit (events.js:172:7)
-14 verbose stack     at maybeClose (internal/child_process.js:818:16)
-14 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:211:5)
-15 verbose pkgid phid.io@1.0.0
-16 verbose cwd /Users/bartjansen/htdocs/phidio.github.io
-17 error Darwin 15.2.0
-18 error argv "/usr/local/Cellar/node/5.1.0/bin/node" "/usr/local/bin/npm" "run" "dev"
-19 error node v5.1.0
-20 error npm  v3.5.3
-21 error code ELIFECYCLE
-22 error phid.io@1.0.0 dev: `node ./bin/dev.js`
-22 error Exit status 1
-23 error Failed at the phid.io@1.0.0 dev script 'node ./bin/dev.js'.
-23 error Make sure you have the latest version of node.js and npm installed.
-23 error If you do, this is most likely a problem with the phid.io package,
-23 error not with npm itself.
-23 error Tell the author that this fails on your system:
-23 error     node ./bin/dev.js
-23 error You can get information on how to open an issue for this project with:
-23 error     npm bugs phid.io
-23 error Or if that isn't available, you can get their info via:
-23 error     npm owner ls phid.io
-23 error There is likely additional logging output above.
-24 verbose exit [ 1, true ]
+4 verbose stack Error: missing script: start-dev
+4 verbose stack     at run (/usr/local/lib/node_modules/npm/lib/run-script.js:147:19)
+4 verbose stack     at /usr/local/lib/node_modules/npm/lib/run-script.js:57:5
+4 verbose stack     at /usr/local/lib/node_modules/npm/node_modules/read-package-json/read-json.js:345:5
+4 verbose stack     at checkBinReferences_ (/usr/local/lib/node_modules/npm/node_modules/read-package-json/read-json.js:309:45)
+4 verbose stack     at final (/usr/local/lib/node_modules/npm/node_modules/read-package-json/read-json.js:343:3)
+4 verbose stack     at then (/usr/local/lib/node_modules/npm/node_modules/read-package-json/read-json.js:113:5)
+4 verbose stack     at /usr/local/lib/node_modules/npm/node_modules/read-package-json/read-json.js:300:12
+4 verbose stack     at /usr/local/lib/node_modules/npm/node_modules/graceful-fs/graceful-fs.js:76:16
+4 verbose stack     at tryToString (fs.js:414:3)
+4 verbose stack     at FSReqWrap.readFileAfterClose [as oncomplete] (fs.js:401:12)
+5 verbose cwd /Users/bartjansen/htdocs/phidio.github.io
+6 error Darwin 15.2.0
+7 error argv "/usr/local/Cellar/node/5.1.0/bin/node" "/usr/local/bin/npm" "run" "start-dev"
+8 error node v5.1.0
+9 error npm  v3.5.3
+10 error missing script: start-dev
+11 error If you need help, you may report this error at:
+11 error     <https://github.com/npm/npm/issues>
+12 verbose exit [ 1, true ]

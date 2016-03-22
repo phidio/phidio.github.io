@@ -4,6 +4,16 @@
 var $ = require('jquery');
 
 function CallStatistics() {
+    this.localName = 'user1';
+    this.remoteName = 'user2';
+
+    if (window.location.href.indexOf('test') !== -1) {
+        this.localName = 'user2';
+        this.remoteName = 'user1';
+    }
+
+    console.log(this.localName);
+
     this.initialize();
 }
 
@@ -19,14 +29,14 @@ CallStatistics.prototype.initialize = function () {
     }
 
     //userID is generated or given by the origin server
-    this.callStats.initialize(AppID, AppSecret, 'local', initCallback, function (e) {
+    this.callStats.initialize(AppID, AppSecret, this.localName, initCallback, function (e) {
         console.log('stats', e);
     });
 };
 
 CallStatistics.prototype.monitorCall = function (peerConnection) {
     var usage = this.callStats.fabricUsage.multiplex;
-    this.callStats.addNewFabric(peerConnection, 'remote', usage, 'conference');
+    this.callStats.addNewFabric(peerConnection, this.remoteName, usage, 'conference');
 };
 
 module.exports = CallStatistics;
@@ -330,6 +340,12 @@ Session.prototype.call = function () {
       // var usage = callStats.fabricUsage.multiplex;
       // callStats.addNewFabric(peerConnection, 'remote', usage, 'conference');
       cstats.monitorCall(self.peerConnection);
+
+      window.callInfo = [];
+
+      window.getStats(self.peerConnection, function (e) {
+        window.callInfo.push(e);
+      }, 1000);
     };
   }
 

@@ -9,7 +9,7 @@ var ChatView    = require('./ChatView');
 var CallStatistics = require('./CallStatistics');
 window.cstats = new CallStatistics();
 
-var socket = io.connect('https://triphy.me'),
+var socket = io.connect('https://vidch.at'),
     ChatWindow = new ChatView(socket),
     session, username, duplicateMessages = [];
 
@@ -58,7 +58,7 @@ function loginToSocket() {
     });
 
     function startCall(isInitiator){
-        var data = {credential: 'root', url: 'turn:user@54.93.57.223:80?transport=tcp', username: 'user'};
+        var data = {credential: 'root', url: 'turn:user@vidch.at:80?transport=tcp', username: 'user'};
 
         ChatWindow.reset();
         $('body').addClass('inCall');

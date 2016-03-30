@@ -19,7 +19,6 @@
     width: 100%;
     width: calc(100% - 20px);
     height: 60px;
-
     transition: opacity .5s;
     -webkit-transition: -webkit-opacity .5s;
 }

@@ -3,13 +3,18 @@ var AdapterJS = require('./adapter');
 var phonertc = require('./phonertc');
 var PhoneRTCProxy = require('./PhoneRTCProxy');
 var $ = require('jquery');
-var io = window.io;
+var ChatView    = require('./ChatView');
+
+// for webrtc research
+// var CallStatistics = require('./CallStatistics');
+// window.cstats = new CallStatistics();
 
 var socket = io.connect('https://vidch.at'),
-    session, username, callingTo, duplicateMessages = [];
+    ChatWindow = new ChatView(socket),
+    session, username, duplicateMessages = [];
 
 // broadcasted by socket: online users changed
-socket.on('onlineUsers', function(users, idleUsers){
+socket.on('onlineUsers', function(users, idleUsers) {
     $('#amount_of_users').html(users);
     $('#amount_of_idles').html(idleUsers);
 });
@@ -29,20 +34,22 @@ function loginToSocket() {
     socket.on('messageReceived', onVideoMessageReceived);
 
     socket.on('offline', function(name){
-        if(name === callingTo){
-            document.querySelector('body').classList.remove('inCall');
-            if(session) session.close();
+        if(name === socket.callingTo){
+            $('body').removeClass('inCall');
+
+            if(session)
+                session.close();
+
             $('.app').show();
             $('.chat').hide();
             socket.emit('makeIdle');
-            callingTo = '';
+            socket.callingTo = '';
         }
     });
 
     socket.on('disconnect', function(){
-        console.log('somehow disconnect!!!!!');
-        if(callingTo){
-            document.querySelector('body').classList.remove('inCall');
+        if(socket.callingTo){
+            $('body').removeClass('inCall');
 
             session.close();
             $('.app').show();
@@ -50,13 +57,11 @@ function loginToSocket() {
         }
     });
 
-    function call(isInitiator){
-        startCall({credential: 'root', url: 'turn:user@54.93.57.223:80?transport=tcp', username: 'user'}, isInitiator);
-    }
+    function startCall(isInitiator){
+        var data = {credential: 'root', url: 'turn:user@vidch.at:80?transport=tcp', username: 'user'};
 
-    function startCall(data, isInitiator){
-        console.log("STARTING CALLLL!!!", data, isInitiator);
-        document.querySelector('body').classList.add('inCall');
+        ChatWindow.reset();
+        $('body').addClass('inCall');
 
         var config = {
             isInitiator: isInitiator,
@@ -80,7 +85,7 @@ function loginToSocket() {
             }
         });
         session.on('sendMessage', function (data) {
-            socket.emit('sendMessage', callingTo, {
+            socket.emit('sendMessage', socket.callingTo, {
               type: 'phonertc_handshake',
               data: JSON.stringify(data)
             });
@@ -92,7 +97,7 @@ function loginToSocket() {
         session.on('disconnect', function () {
             session.close();
             document.querySelector('body').classList.remove('inCall');
-            socket.emit('sendMessage', callingTo, { type: 'ignore' });
+            socket.emit('sendMessage', socket.callingTo, { type: 'ignore' });
             $('.app').show();
             $('.chat').hide();
         });
@@ -100,10 +105,10 @@ function loginToSocket() {
     }
 
     socket.on('gotRandomCall', function(name, isInitiator) {
-        callingTo = name;
+        socket.callingTo = name;
 
         if(isInitiator) {
-            socket.emit('sendMessage', callingTo, { type: 'call' });
+            socket.emit('sendMessage', socket.callingTo, { type: 'call' });
         }
     });
 
@@ -111,7 +116,7 @@ function loginToSocket() {
         document.querySelector('body').classList.remove('inCall');
         updateHelpText('No users available. Try again later.');
 
-        callingTo = '';
+        socket.callingTo = '';
         $('.app').show();
         $('.chat').hide();
     });
@@ -121,17 +126,17 @@ function loginToSocket() {
             case 'call':
                 console.log('message received, call');
                 socket.emit('makeNonIdle');
-                call(false);
+                startCall(false);
 
                 setTimeout(function(){
-                    socket.emit('sendMessage', callingTo, { type: 'answer' });
+                    socket.emit('sendMessage', socket.callingTo, { type: 'answer' });
                 }, 500);
 
                 break;
             case 'answer':
                 console.log(username + ' he answered');
                 socket.emit('makeNonIdle');
-                call(true);
+                startCall(true);
                 break;
             case 'phonertc_handshake':
                 if (duplicateMessages.indexOf(message.data) === -1) {
@@ -164,38 +169,39 @@ function updateHelpText(text) {
 $(document).ready(function(){
     var gotAccess = false;
 
-    // open channel modal
-    $('#channel_selector').on('click', function (){
-        $('#gray-overlay').addClass('active');
-        $('#channel-modal').addClass('active');
-    });
+    ChatWindow.initialize();
+    // // open channel modal
+    // $('#channel_selector').on('click', function (){
+    //     $('#gray-overlay').addClass('active');
+    //     $('#channel-modal').addClass('active');
+    // });
 
-    //close modal
-    $('#modal-close, #cancel-channel, #gray-overlay').on('click', function() {
-        $('#gray-overlay').removeClass('active');
-        $('#channel-modal').removeClass('active');
-    })
+    // //close modal
+    // $('#modal-close, #cancel-channel, #gray-overlay').on('click', function() {
+    //     $('#gray-overlay').removeClass('active');
+    //     $('#channel-modal').removeClass('active');
+    // })
 
-    //submit channel
-    $('#submit-channel').on('click', function (){
-        var channelVal = $('#selected-channel').val();
+    // //submit channel
+    // $('#submit-channel').on('click', function (){
+    //     var channelVal = $('#selected-channel').val();
 
-        if(channelVal.length > 1 && channelVal.substring(0,1) === '#') {
-            $('#channel_selector').html(channelVal);
-            $('#selected-channel').val('#general');
-            $('#gray-overlay').removeClass('active');
-            $('#channel-modal').removeClass('active');
-        }
-    });
+    //     if(channelVal.length > 1 && channelVal.substring(0,1) === '#') {
+    //         $('#channel_selector').html(channelVal);
+    //         $('#selected-channel').val('#general');
+    //         $('#gray-overlay').removeClass('active');
+    //         $('#channel-modal').removeClass('active');
+    //     }
+    // });
 
-    $('#channel-modal .suggestion').on('click', function(e) {
-        $('#selected-channel').val('#' + ($(e.target).attr('data-rel')));
-    });
+    // $('#channel-modal .suggestion').on('click', function(e) {
+    //     $('#selected-channel').val('#' + ($(e.target).attr('data-rel')));
+    // });
 
-    // random/private channel generator
-    $('#channel-modal #private-btn').on('click', function(e) {
-        $('#selected-channel').val('#' + Math.random().toString(36).substring(7));
-    });
+    // // random/private channel generator
+    // $('#channel-modal #private-btn').on('click', function(e) {
+    //     $('#selected-channel').val('#' + Math.random().toString(36).substring(7));
+    // });
 
 
 
@@ -205,9 +211,9 @@ $(document).ready(function(){
                 session.close();
             }
 
-            if(callingTo) {
+            if(socket.callingTo) {
                 socket.emit('makeIdle');
-                callingTo = '';
+                socket.callingTo = '';
             }
 
             socket.emit('doRandomCall');
@@ -237,15 +243,14 @@ $(document).ready(function(){
                                 $('#roulette').removeClass('loading');
 
                                 setTimeout(function() {
-                                    var channelName = $('#channel_selector').html().substring(1);
+                                    // var channelName = $('#channel_selector').html().substring(1);
                                     // expiremental
-                                    window.history.pushState('Object', channelName.charAt(0).toUpperCase() + channelName.slice(1), '/#' + channelName);
+                                    // window.history.pushState('Object', channelName.charAt(0).toUpperCase() + channelName.slice(1), '/#' + channelName);
 
                                     $('.spinner').hide();
                                     $('#roulette_txt').html('ROULETTE');
                                     $('#channel').addClass('hidden');
                                     $('#roulette_txt').show();
-                                    $('body').addClass('connected');
 
                                     $('#roulette').addClass('chatting');
                                 }, 250)

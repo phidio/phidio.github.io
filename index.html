@@ -10,12 +10,17 @@
         <meta name="author" content="Bart Jansen">
         <meta name="keywords" conent="phid.io,phidio,videochat,webrtc,interaction,mobile,vidchat,webcam">
         <link rel="stylesheet" type="text/css" href="css/index.css" />
-        <link rel="stylesheet" type="text/css" href="css/channel.css" />
+        <link rel="stylesheet" type="text/css" href="css/chat.css" />
         <link rel="stylesheet" type="text/css" href="css/overlay.css" />
         <link rel="stylesheet" href="icomoon/style.css">
         <link href='//fonts.googleapis.com/css?family=Roboto:400,100italic,100,300italic,300,400italic,500,500italic,700' rel='stylesheet' type='text/css'>
         <link href='//fonts.googleapis.com/css?family=Open+Sans:400,100italic,100,300italic,300,400italic,500,500italic,700' rel='stylesheet' type='text/css'>
-        <link rel="import" href="https://www.polymer-project.org/0.5/components/paper-ripple/paper-ripple.html">
+        <link rel="import" href="https://www.polymer-project.org/1.0/components/paper-ripple/paper-ripple.html">
+
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jsSHA/1.5.0/sha.js"></script> -->
+        <!-- <script src="https://cdn.webrtc-experiment.com/getStats.js"></script> -->
+        <!-- <script src="https://api.callstats.io/static/callstats.min.js"></script> -->
+
         <link rel="canonical" href="https://phid.io" />
         <link rel="icon" href="img/favicon.png" type="image/png">
         <title>Phidio - Meet new people. Today.</title>
@@ -38,21 +43,11 @@
             </div>
         </div>
 
-        <div id='channel'>
+<!--         <div id='channel'>
             <div id='channel_label'>Join channel:</div>
             <div id='channel_selector'>#general</div>
-        </div>
-<!--
-        <div id='channel_suggestions'>
-            <span style='color: #fff'>Some suggestions:</span>
-            <ul>
-                <li data-rel='soccer'>#soccer (8)</li>
-                <li data-rel='football'>#football (4)</li>
-                <li data-rel='politics'>#politics (3)</li>
-                <li data-rel='traveling'>#traveling (1)</li>
-            </ul>
-        </div>
- -->
+        </div> -->
+
         <div id="roulette">
             <span id="roulette_txt">Join the conversation (beta)</span>
             <div class="spinner"></div>
@@ -89,6 +84,22 @@
             </footer>
         </div>
 
+
+        <div id='message-btn'>
+            <div class='icon-bubble'></div>
+            <div id='message-badge'>0</div>
+        </div>
+
+        <div id='message-window'>
+            <div id='message-header'>Chat conversation<span style='float:right; margin-right: 10px'>x</span></div>
+            <div id='message-body'></div>
+            <div id='message-bottom-bar'>
+                <input type='text' placeholder='Message' id='message-input'>
+                <div id='send-message'>send</div>
+            </div>
+        </div>
+
+<!--
         <div id='channel-modal'>
             <div id='modal-close'>x</div>
 
@@ -117,7 +128,7 @@
             </div>
         </div>
 
-        <div id='gray-overlay'></div>
+        <div id='gray-overlay'></div> -->
 
 
         <script type="text/javascript" src="https://vidch.at/socket.io/socket.io.js"></script>

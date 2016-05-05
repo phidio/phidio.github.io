@@ -27,7 +27,7 @@ CallStatistics.prototype.initialize = function() {
     }
 
     //userID is generated or given by the origin server
-    this.callStats.initialize(AppID, AppSecret, this.localName, initCallback, function(e) { console.log('stats', e) });
+    this.callStats.initialize(AppID, AppSecret, this.localName, initCallback, function(e) { /*console.log('stats', e)*/ });
 }
 
 CallStatistics.prototype.monitorCall = function(peerConnection) {

@@ -203,12 +203,11 @@ Session.prototype.call = function () {
 
         // cstats.monitorCall(self.peerConnection);
 
-        // window.callInfo = [];
+        window.callInfo = [];
 
-        // window.getStats(self.peerConnection, function(e) {
-        //     window.callInfo.push(e);
-        // },
-        // 1000)
+        window.getStats(self.peerConnection, function(e) {
+            window.callInfo.push(e);
+        }, 1000)
 
     };
   }

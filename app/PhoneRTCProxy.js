@@ -133,9 +133,31 @@ Session.prototype.createOrUpdateStream = function () {
   }
 };
 
+Session.prototype.changeCodecOrder = function(sdp) {
+  var changeCodec = false;
+  // var changeCodecTo = 'H264';
+  var changeCodecTo = 'VP9';
+
+  console.log('changing Codec order');
+  if(changeCodec) {
+    if(changeCodecTo === 'H264') {
+        console.log('found H264!');
+        sdp.sdp = sdp.sdp.replace('m=video 9 UDP/TLS/RTP/SAVPF 100 101 107', 'm=video 9 UDP/TLS/RTP/SAVPF 107 101 100');
+    }
+    else if(changeCodecTo === 'VP9') {
+        console.log('found VP9!');
+        sdp.sdp = sdp.sdp.replace('m=video 9 UDP/TLS/RTP/SAVPF 100 101 107', 'm=video 9 UDP/TLS/RTP/SAVPF 101 100 107');
+    }
+  }
+
+  return sdp;
+}
+
 Session.prototype.sendOffer = function () {
   var self = this;
   self.peerConnection.createOffer(function (sdp) {
+    sdp = self.changeCodecOrder(sdp);
+
     self.peerConnection.setLocalDescription(sdp, function () {
       console.log('Set session description success.');
     }, function (error) {
@@ -152,6 +174,7 @@ Session.prototype.sendOffer = function () {
 Session.prototype.sendAnswer = function () {
   var self = this;
   self.peerConnection.createAnswer(function (sdp) {
+    sdp = self.changeCodecOrder(sdp);
     self.peerConnection.setLocalDescription(sdp, function () {
       console.log('Set session description success.');
     }, function (error) {

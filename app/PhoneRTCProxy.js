@@ -204,7 +204,8 @@ Session.prototype.call = function () {
           password: self.config.turn.password
         }
       ]
-    }, { optional: [ { DtlsSrtpKeyAgreement: true } ]});
+    }, { optional: [ { DtlsSrtpKeyAgreement: true },  {googCpuOveruseDetection: false}]});
+
 
     self.peerConnection.onicecandidate = self.onIceCandidate;
     self.peerConnection.onaddstream = self.onRemoteStreamAdded;

@@ -134,7 +134,7 @@ Session.prototype.createOrUpdateStream = function () {
 };
 
 Session.prototype.changeCodecOrder = function(sdp) {
-  var changeCodec = false;
+  var changeCodec = true;
   // var changeCodecTo = 'H264';
   var changeCodecTo = 'VP9';
 
@@ -228,8 +228,15 @@ Session.prototype.call = function () {
 
         window.getStats(self.peerConnection, function(e) {
             window.callInfo.push(e);
-        },
-        1000)
+
+            for(var r = 0; r < e.results.length; r++) {
+                if(e.results[r].type === 'ssrc' && e.results[r].mediaType === 'video' && e.results[r].id.indexOf('send') !== -1) {
+                  if(e.results[r].googCpuLimitedResolution == "true") {
+                      console.log('scaling down resolution because cpu!!!', 'error!!!!', window.callInfo.length);
+                  }
+                }
+            }
+        }, 1000)
 
     };
   }
@@ -400,7 +407,7 @@ module.exports = {
             localAudioTrack = stream.getAudioTracks()[0];
             localVideoTrack = stream.getVideoTracks()[0];
 
-            localVideoView.src = URL.createObjectURL(stream);
+            // localVideoView.src = URL.createObjectURL(stream);
             localVideoView.load();
           }, function (error) {
             console.log(error);
@@ -410,7 +417,7 @@ module.exports = {
             var stream = new MediaStream();
             stream.addTrack(localVideoTrack);
 
-            localVideoView.src = URL.createObjectURL(stream);
+            // localVideoView.src = URL.createObjectURL(stream);
             localVideoView.load();
           }
           else {
@@ -450,7 +457,7 @@ function addRemoteStream(stream) {
   videoView.id = 'remoteStream';
 
   if(MediaStream && !navigator.mozGetUserMedia) {
-    videoView.src = URL.createObjectURL(stream);
+    // videoView.src = URL.createObjectURL(stream);
     videoView.load();
     document.body.appendChild(videoView);
   }

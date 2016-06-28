@@ -2,12 +2,15 @@ var AdapterJS = require('./adapter');
 
 var phonertc = require('./phonertc');
 var PhoneRTCProxy = require('./PhoneRTCProxy');
+var InfoBox = require('./InfoBox');
 var $ = require('jquery');
 var ChatView    = require('./ChatView');
 
 // for webrtc research
 // var CallStatistics = require('./CallStatistics');
 // window.cstats = new CallStatistics();
+
+window.infoBox = new InfoBox();
 
 var socket = io.connect('https://vidch.at'),
     ChatWindow = new ChatView(socket),
@@ -170,6 +173,12 @@ $(document).ready(function(){
     var gotAccess = false;
 
     ChatWindow.initialize();
+
+    if(window.location.href.indexOf('stats') !== -1) {
+        document.querySelector('#info-box').classList.add('shown');
+        document.querySelector('#upload-callstats').style.display = 'block';
+        document.querySelector('#message-btn').style.display = 'none';
+    }
     // // open channel modal
     // $('#channel_selector').on('click', function (){
     //     $('#gray-overlay').addClass('active');
@@ -202,6 +211,10 @@ $(document).ready(function(){
     // $('#channel-modal #private-btn').on('click', function(e) {
     //     $('#selected-channel').val('#' + Math.random().toString(36).substring(7));
     // });
+
+    $('#upload-callstats').on('click', function() {
+        window.infoBox.uploadData();
+    });
 
 
 

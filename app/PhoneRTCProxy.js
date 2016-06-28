@@ -205,8 +205,10 @@ Session.prototype.call = function () {
 
         window.callInfo = [];
 
+
         window.getStats(self.peerConnection, function(e) {
             window.callInfo.push(e);
+            window.infoBox.updateInfo();
         }, 1000)
 
     };

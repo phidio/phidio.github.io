@@ -7,7 +7,6 @@ InfoBox.prototype.updateInfo = function() {
     this.oldCallData = this.callData || {};
     this.callData = this.getNecessaryData(window.callInfo[window.callInfo.length-1]);
 
-    console.log(this.callData);
     var value = '<pre id="info-box-stats" style="line-height: initial">' +
         'Call time:  ' + this.getSeconds() + '\n' +
         'RTT:        ' + this.getRTT() +'\n'+

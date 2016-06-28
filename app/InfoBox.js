@@ -253,6 +253,7 @@ InfoBox.prototype.uploadData = function() {
         alert('error uploading');
         console.log(error);
     }, function() {
+        alert('successfully uploaded');
       console.log('succesfully uploaded!');
       var downloadURL = uploadTask.snapshot.downloadURL;
       console.log('available at', downloadURL)

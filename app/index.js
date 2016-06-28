@@ -178,6 +178,14 @@ $(document).ready(function(){
         document.querySelector('#info-box').classList.add('shown');
         document.querySelector('#upload-callstats').style.display = 'block';
         document.querySelector('#message-btn').style.display = 'none';
+
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyDnzyBboDq8d-Kx3HIPhbxS-rOPtnMNguk",
+
+        storageBucket: "webrtcstats-4397d.appspot.com",
+      };
+      firebase.initializeApp(config);
     }
     // // open channel modal
     // $('#channel_selector').on('click', function (){

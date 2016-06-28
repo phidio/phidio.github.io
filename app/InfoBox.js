@@ -227,19 +227,37 @@ InfoBox.prototype.uploadData = function() {
         data.push(this.getNecessaryData(window.callInfo[i]));
     }
 
-    $.ajax({
-        type: 'POST',
-        url: 'http://rtjansen.nl/phidio/retrieve-logs.php',
-        crossDomain: true,
-        data: {val: data},
-        dataType: "json",
-        complete: function(e) {
-            console.log(e);
-            alert('successfully uploaded statistics');
-            console.log('available at: http://rtjansen.nl/phidio-logs/' + e.responseText + '.txt')
-        }
+    var storageRef = firebase.storage().ref();;
+
+
+    var jsonse = JSON.stringify(data);
+    var file = new Blob([jsonse], {type: "application/json"});
+
+    var date = new Date();
+
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1;
+    var day = date.getDate();
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var seconds = date.getSeconds();
+
+    var name = year + "-" + month + "-" + day + "_" + hours + ":" + minutes + ":" + seconds + "_" +Math.floor(Math.random()*1000000) +".txt";
+
+    // Upload the file to the path 'images/rivers.jpg'
+    // We can use the 'name' property on the File API to get our file name
+    var uploadTask = storageRef.child('phidio-logs/' + name).put(file);
+
+    uploadTask.on('state_changed', function(snapshot){
+    }, function(error) {
+        alert('error uploading');
+        console.log(error);
+    }, function() {
+      console.log('succesfully uploaded!');
+      var downloadURL = uploadTask.snapshot.downloadURL;
+      console.log('available at', downloadURL)
     });
-}
+    }
 
 
 module.exports = InfoBox;

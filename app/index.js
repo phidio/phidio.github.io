@@ -182,7 +182,7 @@ $(document).ready(function(){
       // Initialize Firebase
       var config = {
         apiKey: "AIzaSyDnzyBboDq8d-Kx3HIPhbxS-rOPtnMNguk",
-
+        databaseURL: "https://webrtcstats-4397d.firebaseio.com",
         storageBucket: "webrtcstats-4397d.appspot.com",
       };
       firebase.initializeApp(config);

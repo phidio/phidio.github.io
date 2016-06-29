@@ -215,6 +215,15 @@ InfoBox.prototype.getRTT = function() {
     return this.callData.googRtt + 'ms';
 }
 
+InfoBox.prototype.formatNr = function(nr) {
+    if(nr < 10) {
+        nr = '0' + nr;
+    }
+
+    return nr;
+
+}
+
 InfoBox.prototype.uploadData = function() {
     var data = [];
 
@@ -226,7 +235,9 @@ InfoBox.prototype.uploadData = function() {
         data.push(this.getNecessaryData(window.callInfo[i]));
     }
 
-    var storageRef = firebase.storage().ref();;
+    var storageRef = firebase.storage().ref();
+
+    var databaseRef = firebase.database();
 
 
     var jsonse = JSON.stringify(data);
@@ -235,29 +246,37 @@ InfoBox.prototype.uploadData = function() {
     var date = new Date();
 
     var year = date.getFullYear();
-    var month = date.getMonth() + 1;
-    var day = date.getDate();
-    var hours = date.getHours();
-    var minutes = date.getMinutes();
-    var seconds = date.getSeconds();
+    var month = this.formatNr(date.getMonth() + 1);
+    var day = this.formatNr(date.getDate());
+    var hours = this.formatNr(date.getHours());
+    var minutes = this.formatNr(date.getMinutes());
+    var seconds = this.formatNr(date.getSeconds());
 
     var name = year + "-" + month + "-" + day + "_" + hours + ":" + minutes + ":" + seconds + "_" +Math.floor(Math.random()*1000000) +".txt";
 
     // Upload the file to the path 'images/rivers.jpg'
     // We can use the 'name' property on the File API to get our file name
-    var uploadTask = storageRef.child('phidio-logs/' + name).put(file);
+    // var uploadTask = storageRef.child('phidio-logs/' + name).put(file);
 
-    uploadTask.on('state_changed', function(snapshot){
-    }, function(error) {
-        alert('error uploading');
-        console.log(error);
-    }, function() {
-        alert('successfully uploaded');
-      console.log('succesfully uploaded!');
-      var downloadURL = uploadTask.snapshot.downloadURL;
-      console.log('available at', downloadURL)
-    });
-    }
+    // uploadTask.on('state_changed', function(snapshot){
+    // }, function(error) {
+        // alert('error uploading');
+        // console.log(error);
+    // }, function() {
+        // alert('successfully uploaded');
+        // console.log('succesfully uploaded!');
+        // var downloadURL = uploadTask.snapshot.downloadURL;
+        // console.log('available at', downloadURL)
+        databaseRef.ref('logs').push({
+            contents: jsonse,
+            // downloadURL: downloadURL,
+            fileName: name,
+            callLength: window.callInfo.length
+        }, function() {
+            alert('successfully pushed data to db');
+        })
+    // });
+}
 
 
 module.exports = InfoBox;

@@ -1,5 +1,5 @@
 //init vars
-var __TemWebRTCReady0, webrtcDetectedType, webrtcDetectedDCSupport, checkMediaDataChannelSettings, RTCSessionDescription, RTCIceCandidate, isIE, checkIceConnectionState, createIceServer, createIceServers, RTCPeerConnection, getUserMedia, attachMediaStream, reattachMediaStream, webrtcDetectedBrowser, webrtcDetectedVersion;
+var __TemWebRTCReady0, webrtcMinimumVersion,webrtcDetectedType, webrtcDetectedDCSupport, checkMediaDataChannelSettings, RTCSessionDescription, RTCIceCandidate, isIE, checkIceConnectionState, createIceServer, createIceServers, RTCPeerConnection, getUserMedia, attachMediaStream, reattachMediaStream, webrtcDetectedBrowser, webrtcDetectedVersion;
 
 // Adapter's interface.
 var AdapterJS = AdapterJS || {};

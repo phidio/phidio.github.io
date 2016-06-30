@@ -284,11 +284,14 @@ $(document).ready(function(){
                                 case 'PermissionDismissedError':
                                     errorTxt = "Access not granted. Please try again";
                                     break;
+                                case 'Edge':
+                                    errorTxt = "Microsoft Edge is not supported. Try Google Chrome or IE";
+                                    break;
                                 case 'NotSupported':
                                     if(AdapterJS.AdapterJS.hasPlugin) {
                                         AdapterJS.AdapterJS.renderNotificationBar(AdapterJS.AdapterJS.popupString, AdapterJS.AdapterJS.TEXT.PLUGIN.BUTTON, AdapterJS.AdapterJS.downloadLink);
                                     }
-                                    errorTxt = 'Your device is not supported. ' + (!AdapterJS.hasPlugin ?  'Please download the app.' : 'Please install the plugin.');
+                                    errorTxt = 'Your device is not supported. ' + (!AdapterJS.AdapterJS.hasPlugin ?  'Please download the app.' : 'Please install the plugin.');
                                     break;
                                 case 'DevicesNotFoundError':
                                     errorTxt = 'No camera and/or microphone found. Try again.'

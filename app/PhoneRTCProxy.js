@@ -135,6 +135,11 @@ Session.prototype.createOrUpdateStream = function () {
 
 Session.prototype.sendOffer = function () {
   var self = this;
+  var offerReceive = { mandatory: { OfferToReceiveAudio: true, OfferToReceiveVideo: !!videoConfig } };
+
+  if(navigator.mozGetUserMedia)
+    offerReceive = { "offerToReceiveAudio":true,"offerToReceiveVideo":true };
+
   self.peerConnection.createOffer(function (sdp) {
     self.peerConnection.setLocalDescription(sdp, function () {
       console.log('Set session description success.');
@@ -145,7 +150,7 @@ Session.prototype.sendOffer = function () {
     self.sendMessage(sdp);
   }, function (error) {
     console.log(error);
-  }, { mandatory: { OfferToReceiveAudio: true, OfferToReceiveVideo: !!videoConfig }});
+  }, offerReceive);
   // }, { mandatory: { offerToReceiveAudio: true, offerToReceiveVideo: !!videoConfig }}); //for FF
 }
 

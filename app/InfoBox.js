@@ -12,8 +12,8 @@ InfoBox.prototype.updateInfo = function() {
         'RTT:        ' + this.getRTT() +'\n'+
         'Audio Tx:   '+ this.callData.sentAudio.googCodecName+', ' + this.computeBitrate(this.oldCallData.sentAudio, this.callData.sentAudio, 'sent') + ', ' + this.computePackets(this.oldCallData.sentAudio, this.callData.sentAudio, 'sent') + '\n'+
         'Audio Rx:   '+ this.callData.recvAudio.googCodecName+', ' + this.computeBitrate(this.oldCallData.recvAudio, this.callData.recvAudio, 'recv') + ', ' + this.computePackets(this.oldCallData.recvAudio, this.callData.recvAudio, 'recv') + '\n'+
-        'Video Tx:   '+ this.callData.sentVideo.googCodecName+', ' + this.callData.sentVideo.googFrameWidthSent + 'p' + this.callData.sentVideo.googFrameRateSent + ', ' + this.computeBitrate(this.oldCallData.sentVideo, this.callData.sentVideo, 'sent') + ', ' + this.computePackets(this.oldCallData.sentVideo, this.callData.sentVideo, 'sent') + '\n'+
-        'Video Rx:   '+ this.callData.recvVideo.googCodecName+', ' + this.callData.recvVideo.googFrameWidthReceived + 'p' + this.callData.recvVideo.googFrameRateReceived + ', ' + this.computeBitrate(this.oldCallData.recvVideo, this.callData.recvVideo, 'recv') + ', ' + this.computePackets(this.oldCallData.recvVideo, this.callData.recvVideo, 'recv') + '\n'+
+        'Video Tx:   '+ this.callData.sentVideo.googCodecName+', ' + this.callData.sentVideo.googFrameHeightSent + 'p' + this.callData.sentVideo.googFrameRateSent + ', ' + this.computeBitrate(this.oldCallData.sentVideo, this.callData.sentVideo, 'sent') + ', ' + this.computePackets(this.oldCallData.sentVideo, this.callData.sentVideo, 'sent') + '\n'+
+        'Video Rx:   '+ this.callData.recvVideo.googCodecName+', ' + this.callData.recvVideo.googFrameHeightReceived + 'p' + this.callData.recvVideo.googFrameRateReceived + ', ' + this.computeBitrate(this.oldCallData.recvVideo, this.callData.recvVideo, 'recv') + ', ' + this.computePackets(this.oldCallData.recvVideo, this.callData.recvVideo, 'recv') + '\n'+
         'Loss Tx:    '+this.getPacketLoss(this.oldCallData, this.callData)+'\n'+
         '\n' +
         'Limitations:\n' +

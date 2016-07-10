@@ -1,6 +1,6 @@
 var $ = require('jquery');
 var InfoBox = function() {
-    console.log('nu')
+    // console.log('nu')
 }
 
 InfoBox.prototype.updateInfo = function() {

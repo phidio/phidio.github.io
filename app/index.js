@@ -40,6 +40,8 @@ function loginToSocket() {
         if(name === socket.callingTo){
             $('body').removeClass('inCall');
 
+            $('#help_text').html('You got rouletted. Click roulette to chat');
+
             if(session)
                 session.close();
 
@@ -53,6 +55,8 @@ function loginToSocket() {
     socket.on('disconnect', function(){
         if(socket.callingTo){
             $('body').removeClass('inCall');
+
+            console.log('disconnected?');
 
             session.close();
             $('.app').show();
@@ -100,6 +104,7 @@ function loginToSocket() {
         session.on('disconnect', function () {
             session.close();
             document.querySelector('body').classList.remove('inCall');
+            $('#help_text').html('You got rouletted. Click roulette to chat');
             socket.emit('sendMessage', socket.callingTo, { type: 'ignore' });
             $('.app').show();
             $('.chat').hide();
@@ -231,6 +236,8 @@ $(document).ready(function(){
             if(session) {
                 session.close();
             }
+
+            $('#help_text').html('Connecting..');
 
             if(socket.callingTo) {
                 socket.emit('makeIdle');

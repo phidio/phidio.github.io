@@ -112,7 +112,8 @@ InfoBox.prototype.getNecessaryData = function (res) {
         switch (res.results[r].type) {
             case 'ssrc':
                 //distinct between 4 different types
-                if(res.results[r].mediaType === 'audio' && res.results[r].id.indexOf('send') !== -1) {
+                // if(res.results[r].mediaType === 'audio' && res.results[r].id.indexOf('send') !== -1) {
+                if(res.results[r].audioInputLevel && res.results[r].id.indexOf('send') !== -1) {
                     //sent audio
                     result.sentAudio = {};
                     result.sentAudio.googCodecName = res.results[r].googCodecName;
@@ -124,7 +125,8 @@ InfoBox.prototype.getNecessaryData = function (res) {
                     result.sentAudio.packetsSent = res.results[r].packetsSent;
                     result.sentAudio.timestamp = res.results[r].timestamp;
                 }
-                else if(res.results[r].mediaType === 'video' && res.results[r].id.indexOf('send') !== -1) {
+                // else if(res.results[r].mediaType === 'video' && res.results[r].id.indexOf('send') !== -1) {
+                else if(res.results[r].googFrameHeightSent && res.results[r].id.indexOf('send') !== -1) {
                     result.sentVideo = {};
                     result.sentVideo.googCodecName = res.results[r].googCodecName;
                     result.sentVideo.bytesSent = res.results[r].bytesSent;
@@ -147,7 +149,8 @@ InfoBox.prototype.getNecessaryData = function (res) {
                     result.sentVideo.packetsSent = res.results[r].packetsSent;
                     result.sentVideo.timestamp = res.results[r].timestamp;
                 }
-                else if(res.results[r].mediaType === 'audio' && res.results[r].id.indexOf('recv') !== -1) {
+                // else if(res.results[r].mediaType === 'audio' && res.results[r].id.indexOf('recv') !== -1) {
+                else if(res.results[r].audioOutputLevel && res.results[r].id.indexOf('recv') !== -1) {
                     result.recvAudio = {};
                     result.recvAudio.audioOutputLevel = res.results[r].audioOutputLevel;
                     result.recvAudio.googCodecName = res.results[r].googCodecName;
@@ -157,7 +160,8 @@ InfoBox.prototype.getNecessaryData = function (res) {
                     result.recvAudio.packetsReceived = res.results[r].packetsReceived;
                     result.recvAudio.timestamp = res.results[r].timestamp;
                 }
-                else if(res.results[r].mediaType === 'video' && res.results[r].id.indexOf('recv') !== -1) {
+                // else if(res.results[r].mediaType === 'video' && res.results[r].id.indexOf('recv') !== -1) {
+                else if(res.results[r].googFrameHeightReceived && res.results[r].id.indexOf('recv') !== -1) {
                     result.recvVideo = {};
                     result.recvVideo.googCodecName = res.results[r].googCodecName;
                     result.recvVideo.bytesReceived = res.results[r].bytesReceived;

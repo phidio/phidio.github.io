@@ -1,5 +1,5 @@
 var AdapterJS = require('./adapter');
-
+var $ = require('jquery');
 var PeerConnection = window.webkitRTCPeerConnection || window.mozRTCPeerConnection || window.RTCPeerConnection || AdapterJS.RTCPeerConnection;
 // var IceCandidate = window.mozRTCIceCandidate || window.RTCIceCandidate;
 var SessionDescription = window.mozRTCSessionDescription || window.RTCSessionDescription || AdapterJS.RTCSessionDescription;
@@ -30,6 +30,36 @@ function Session(sessionKey, config, sendMessageCallback) {
   self.onRemoteStreamAdded = function (event) {
     self.videoView = addRemoteStream(event.stream);
     self.sendMessage({ type: '__answered' });
+
+    if((navigator.userAgent.toLowerCase().match('safari') && !navigator.userAgent.toLowerCase().match('chrome')) || navigator.userAgent.indexOf('Trident/') !== -1) {
+        //firefox
+        window.pconnection = self.peerConnection;
+
+        window.callInfo = [];
+        setInterval(function() {
+            self.peerConnection.getStats(null, function(e) {
+                var test = {};
+                test.results = $.map(e, function(value, index) {
+                    return [value];
+                });
+
+                window.callInfo.push(test);
+                window.infoBox.updateInfo();
+
+            }, function(b) { console.log(b) })
+        }, 1000)
+
+
+        // window.pconnection.getLocalStreams()[0].getVideoTracks()[0]
+
+        // window.getStats(window.pconnection, window.pconnection.getLocalStreams()[0].getVideoTracks()[0],  function(e) {
+        //     window.callInfo.push(e);
+        // }, 1000);
+        // window.getStats(self.peerConnection.getLocalStreams()[0].getAudioTracks()[0], function(e) {
+            // window.callInfo.push(e);
+            // window.infoBox.updateInfo();
+        // }, 1000)
+    }
   };
 
   self.setRemote = function (message) {
@@ -141,6 +171,8 @@ Session.prototype.sendOffer = function () {
     offerReceive = { "offerToReceiveAudio":true,"offerToReceiveVideo":true };
 
   self.peerConnection.createOffer(function (sdp) {
+    console.log(sdp);
+    window.test = sdp;
     self.peerConnection.setLocalDescription(sdp, function () {
       console.log('Set session description success.');
     }, function (error) {
@@ -200,6 +232,8 @@ Session.prototype.call = function () {
     }
 
     self.peerConnection.onnegotiationneeded = function () {
+
+      console.log('ja, nu!!!');
         // pc is created, tell callstats about it
         // pick a fabricUsage enumeration, if pc is sending both media and data: use multiplex.
         // var usage = callStats.fabricUsage.multiplex;

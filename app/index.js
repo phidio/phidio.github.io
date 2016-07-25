@@ -181,7 +181,7 @@ $(document).ready(function(){
     if(window.location.href.indexOf('stats') !== -1) {
         document.querySelector('#info-box').classList.add('shown');
         document.querySelector('#upload-callstats').style.display = 'block';
-        document.querySelector('#message-btn').style.display = 'none';
+        // document.querySelector('#message-btn').style.display = 'none';
 
       // Initialize Firebase
       var config = {

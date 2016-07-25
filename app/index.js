@@ -1,5 +1,4 @@
-var AdapterJS = require('./adapter');
-
+var AdapterJS = require('adapterjs');
 var phonertc = require('./phonertc');
 var PhoneRTCProxy = require('./PhoneRTCProxy');
 var InfoBox = require('./InfoBox');
@@ -295,10 +294,11 @@ $(document).ready(function(){
                                     errorTxt = "Microsoft Edge is not supported. Try Google Chrome or IE";
                                     break;
                                 case 'NotSupported':
-                                    if(AdapterJS.AdapterJS.hasPlugin) {
-                                        AdapterJS.AdapterJS.renderNotificationBar(AdapterJS.AdapterJS.popupString, AdapterJS.AdapterJS.TEXT.PLUGIN.BUTTON, AdapterJS.AdapterJS.downloadLink);
+                                    if(typeof AdapterJS.WebRTCPlugin.isPluginInstalled == 'function') {
+                                        AdapterJS.WebRTCPlugin.pluginNeededButNotInstalledCb();
+                                        // AdapterJS.AdapterJS.renderNotificationBar(AdapterJS.AdapterJS.popupString, AdapterJS.AdapterJS.TEXT.PLUGIN.BUTTON, AdapterJS.AdapterJS.downloadLink);
                                     }
-                                    errorTxt = 'Your device is not supported. ' + (!AdapterJS.AdapterJS.hasPlugin ?  'Please download the app.' : 'Please install the plugin.');
+                                    errorTxt = 'Your device is not supported. ' + (!AdapterJS.WebRTCPlugin.pluginInfo.downloadLink ?  'Please download the app.' : 'Please install the plugin.');
                                     break;
                                 case 'DevicesNotFoundError':
                                     errorTxt = 'No camera and/or microphone found. Try again.'

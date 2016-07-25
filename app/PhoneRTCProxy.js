@@ -1,10 +1,10 @@
-var AdapterJS = require('./adapter');
+var AdapterJS = require('adapterjs');
 var $ = require('jquery');
-var PeerConnection = window.webkitRTCPeerConnection || window.mozRTCPeerConnection || window.RTCPeerConnection || AdapterJS.RTCPeerConnection;
+var PeerConnection = window.webkitRTCPeerConnection || window.mozRTCPeerConnection || window.RTCPeerConnection;
 // var IceCandidate = window.mozRTCIceCandidate || window.RTCIceCandidate;
-var SessionDescription = window.mozRTCSessionDescription || window.RTCSessionDescription || AdapterJS.RTCSessionDescription;
+var SessionDescription = window.mozRTCSessionDescription || window.RTCSessionDescription;
 var MediaStream = window.webkitMediaStream || window.mozMediaStream || window.MediaStream;
-var RTCIceCandidate = window.RTCIceCandidate || AdapterJS.RTCIceCandidate;
+var RTCIceCandidate = window.RTCIceCandidate;
 navigator.getUserMedia = navigator.getUserMedia || navigator.mozGetUserMedia || navigator.webkitGetUserMedia;
 
 var localStreams = [];
@@ -495,7 +495,7 @@ module.exports = {
           }
           else {
             document.body.appendChild(localVideoView);
-            AdapterJS.attachMediaStream(localVideoView, localStreams[0], false);
+            AdapterJS.attachMediaStream(localVideoView, localStreams[0]);
 
             localVideoView = document.querySelector('#localStream');
           }
@@ -536,7 +536,7 @@ function addRemoteStream(stream) {
   }
   else {
     document.body.appendChild(videoView);
-    AdapterJS.attachMediaStream(videoView, stream, true);
+    AdapterJS.attachMediaStream(videoView, stream);
   }
 
   remoteVideoViews.push(videoView);

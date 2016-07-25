@@ -31,9 +31,10 @@ function Session(sessionKey, config, sendMessageCallback) {
     self.videoView = addRemoteStream(event.stream);
     self.sendMessage({ type: '__answered' });
 
+    window.pconnection = self.peerConnection;
+
     if((navigator.userAgent.toLowerCase().match('safari') && !navigator.userAgent.toLowerCase().match('chrome')) || navigator.userAgent.indexOf('Trident/') !== -1) {
         //firefox
-        window.pconnection = self.peerConnection;
 
         window.callInfo = [];
         setInterval(function() {
@@ -50,6 +51,7 @@ function Session(sessionKey, config, sendMessageCallback) {
         }, 1000)
 
 
+
         // window.pconnection.getLocalStreams()[0].getVideoTracks()[0]
 
         // window.getStats(window.pconnection, window.pconnection.getLocalStreams()[0].getVideoTracks()[0],  function(e) {
@@ -59,6 +61,62 @@ function Session(sessionKey, config, sendMessageCallback) {
             // window.callInfo.push(e);
             // window.infoBox.updateInfo();
         // }, 1000)
+    }
+    else if(navigator.userAgent.toLowerCase().match('firefox')) {
+
+        window.callInfo = [];
+        setInterval(function() {
+            var yolo = pconnection.getStats(window.pconnection.getRemoteStreams()[0].getVideoTracks()[0])
+            var yolo2 = pconnection.getStats(window.pconnection.getRemoteStreams()[0].getAudioTracks()[0])
+            Promise.all([yolo, yolo2]).then(function(values) {
+                var obj = {};
+
+                var val = [];
+
+                var vidRes = {};
+                // video
+                for(var key in values[0]) {
+                    if(key.indexOf('inbound_rtp') !== -1) {
+                        vidRes.type = 'ssrc';
+                        // vidRes.googCodecName = res.results[r].googCodecName;
+                        vidRes.bytesReceived = values[0][key].bytesReceived;
+                        vidRes.framerateMean = values[0][key].framerateMean;
+                        vidRes.framerateStdDev = values[0][key].framerateStdDev;
+                        vidRes.packetsLost = values[0][key].packetsLost;
+                        vidRes.packetsReceived = values[0][key].packetsReceived;
+                        vidRes.timestamp = values[0][key].timestamp;
+                        vidRes.googFrameHeightReceived = '10';
+                        vidRes.id = 'recv';
+                    }
+                }
+
+
+                var audRes = {};
+                // video
+                for(var key in values[1]) {
+                    if(key.indexOf('inbound_rtp') !== -1) {
+                        audRes.type = 'ssrc';
+                        // audRes.googCodecName = res.results[r].googCodecName;
+                        audRes.bytesReceived = values[1][key].bytesReceived;
+                        audRes.packetsLost = values[1][key].packetsLost;
+                        audRes.packetsReceived = values[1][key].packetsReceived;
+                        audRes.timestamp = values[1][key].timestamp;
+                        audRes.audioOutputLevel = 1;
+                        audRes.id = 'recv';
+                    }
+                }
+
+                val.push(audRes);
+                val.push(vidRes);
+
+                obj.results = val;
+
+
+                window.callInfo.push(obj);
+                window.infoBox.updateInfo();
+            });
+        }, 1000)
+
     }
   };
 

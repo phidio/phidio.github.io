@@ -16,13 +16,7 @@
         <link rel="stylesheet" href="icomoon/style.css">
         <link href='//fonts.googleapis.com/css?family=Roboto:400,100italic,100,300italic,300,400italic,500,500italic,700' rel='stylesheet' type='text/css'>
         <link href='//fonts.googleapis.com/css?family=Open+Sans:400,100italic,100,300italic,300,400italic,500,500italic,700' rel='stylesheet' type='text/css'>
-        <link rel="import" href="https://cdn.rawgit.com/Download/polymer-cdn/master/lib/paper-ripple/paper-ripple.html">
-
-        <script src="https://www.gstatic.com/firebasejs/3.0.5/firebase.js"></script>
-
-        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jsSHA/1.5.0/sha.js"></script> -->
-        <script src="https://cdn.webrtc-experiment.com/getStats.js"></script>
-        <!-- <script src="https://api.callstats.io/static/callstats.min.js"></script> -->
+        <link rel="import" href="https://cdn.rawgit.com/download/polymer-cdn/2.0.2/lib/paper-ripple/paper-ripple.html">
 
         <link rel="canonical" href="https://phid.io" />
         <link rel="icon" href="img/favicon.png" type="image/png">
@@ -87,9 +81,6 @@
             </footer>
         </div>
 
-        <div id='info-box'>
-        </div>
-
         <div id='upload-callstats' style='display:none;'>UPLOAD</div>
 <!--
 
@@ -139,7 +130,8 @@
         <div id='gray-overlay'></div> -->
 
 
-        <script type="text/javascript" src="https://vidch.at/socket.io/socket.io.js"></script>
+        <script type="text/javascript" src="https://phidio.azurewebsites.net/socket.io/socket.io.js"></script>
+        <!-- <script type="text/javascript" src="http://localhost:3000/socket.io/socket.io.js"></script> -->
         <script type="text/javascript" src="js/bundle.js"></script>
 
         <script>

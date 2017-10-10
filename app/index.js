@@ -4,10 +4,12 @@ var PhoneRTCProxy = require('./PhoneRTCProxy');
 var $ = require('jquery');
 var ChatView    = require('./ChatView');
 
-var socket = io.connect('https://phidio.azurewebsites.net'),
+var socket = io.connect('https://phidio.azurewebsites.net', { secure: true, transports: [ "flashsocket","polling","websocket" ] } );
 // var socket = io.connect('http://localhost:3000'),
-    ChatWindow = new ChatView(socket),
+var ChatWindow = new ChatView(socket),
     session, username, duplicateMessages = [];
+
+
 
 // broadcasted by socket: online users changed
 socket.on('onlineUsers', function(users, idleUsers) {

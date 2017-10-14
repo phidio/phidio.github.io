@@ -30,94 +30,6 @@ function Session(sessionKey, config, sendMessageCallback) {
   self.onRemoteStreamAdded = function (event) {
     self.videoView = addRemoteStream(event.stream);
     self.sendMessage({ type: '__answered' });
-
-    window.pconnection = self.peerConnection;
-
-    if((navigator.userAgent.toLowerCase().match('safari') && !navigator.userAgent.toLowerCase().match('chrome')) || navigator.userAgent.indexOf('Trident/') !== -1) {
-        //firefox
-
-        window.callInfo = [];
-        setInterval(function() {
-            self.peerConnection.getStats(null, function(e) {
-                var test = {};
-                test.results = $.map(e, function(value, index) {
-                    return [value];
-                });
-
-                window.callInfo.push(test);
-                window.infoBox.updateInfo();
-
-            }, function(b) { console.log(b) })
-        }, 1000)
-
-
-
-        // window.pconnection.getLocalStreams()[0].getVideoTracks()[0]
-
-        // window.getStats(window.pconnection, window.pconnection.getLocalStreams()[0].getVideoTracks()[0],  function(e) {
-        //     window.callInfo.push(e);
-        // }, 1000);
-        // window.getStats(self.peerConnection.getLocalStreams()[0].getAudioTracks()[0], function(e) {
-            // window.callInfo.push(e);
-            // window.infoBox.updateInfo();
-        // }, 1000)
-    }
-    else if(navigator.userAgent.toLowerCase().match('firefox')) {
-
-        window.callInfo = [];
-        setInterval(function() {
-            var yolo = pconnection.getStats(window.pconnection.getRemoteStreams()[0].getVideoTracks()[0])
-            var yolo2 = pconnection.getStats(window.pconnection.getRemoteStreams()[0].getAudioTracks()[0])
-            Promise.all([yolo, yolo2]).then(function(values) {
-                var obj = {};
-
-                var val = [];
-
-                var vidRes = {};
-                // video
-                for(var key in values[0]) {
-                    if(key.indexOf('inbound_rtp') !== -1) {
-                        vidRes.type = 'ssrc';
-                        // vidRes.googCodecName = res.results[r].googCodecName;
-                        vidRes.bytesReceived = values[0][key].bytesReceived;
-                        vidRes.framerateMean = values[0][key].framerateMean;
-                        vidRes.framerateStdDev = values[0][key].framerateStdDev;
-                        vidRes.packetsLost = values[0][key].packetsLost;
-                        vidRes.packetsReceived = values[0][key].packetsReceived;
-                        vidRes.timestamp = values[0][key].timestamp;
-                        vidRes.googFrameHeightReceived = '10';
-                        vidRes.id = 'recv';
-                    }
-                }
-
-
-                var audRes = {};
-                // video
-                for(var key in values[1]) {
-                    if(key.indexOf('inbound_rtp') !== -1) {
-                        audRes.type = 'ssrc';
-                        // audRes.googCodecName = res.results[r].googCodecName;
-                        audRes.bytesReceived = values[1][key].bytesReceived;
-                        audRes.packetsLost = values[1][key].packetsLost;
-                        audRes.packetsReceived = values[1][key].packetsReceived;
-                        audRes.timestamp = values[1][key].timestamp;
-                        audRes.audioOutputLevel = 1;
-                        audRes.id = 'recv';
-                    }
-                }
-
-                val.push(audRes);
-                val.push(vidRes);
-
-                obj.results = val;
-
-
-                window.callInfo.push(obj);
-                window.infoBox.updateInfo();
-            });
-        }, 1000)
-
-    }
   };
 
   self.setRemote = function (message) {
@@ -229,14 +141,11 @@ Session.prototype.sendOffer = function () {
     offerReceive = { "offerToReceiveAudio":true,"offerToReceiveVideo":true };
 
   self.peerConnection.createOffer(function (sdp) {
-    console.log(sdp);
-    window.test = sdp;
     self.peerConnection.setLocalDescription(sdp, function () {
       console.log('Set session description success.');
     }, function (error) {
       console.log(error);
     });
-
     self.sendMessage(sdp);
   }, function (error) {
     console.log(error);
@@ -291,7 +200,7 @@ Session.prototype.call = function () {
 
     self.peerConnection.onnegotiationneeded = function () {
 
-      console.log('ja, nu!!!');
+      // console.log('ja, nu!!!');
         // pc is created, tell callstats about it
         // pick a fabricUsage enumeration, if pc is sending both media and data: use multiplex.
         // var usage = callStats.fabricUsage.multiplex;
@@ -299,14 +208,6 @@ Session.prototype.call = function () {
 
 
         // cstats.monitorCall(self.peerConnection);
-
-        window.callInfo = [];
-
-
-        window.getStats(self.peerConnection, function(e) {
-            window.callInfo.push(e);
-            window.infoBox.updateInfo();
-        }, 1000)
 
     };
   }

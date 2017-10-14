@@ -36,7 +36,7 @@
     "watchify": "^3.2.2"
   },
   "dependencies": {
-    "adapterjs": "^0.13.3",
+    "adapterjs": "^0.15.0",
     "babelify": "^6.0.1",
     "bowser": "^1.0.0",
     "cssify": "^0.7.0",

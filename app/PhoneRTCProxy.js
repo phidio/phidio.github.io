@@ -173,19 +173,27 @@ Session.prototype.call = function () {
 
   function call() {
     // create the peer connection
-    self.peerConnection = new PeerConnection({
-      iceServers: [
-        {
-          url: 'stun:stun.l.google.com:19302'
-        },
-        {
-          url: self.config.turn.host,
-          username: self.config.turn.username,
-          credential: self.config.turn.password,
-          password: self.config.turn.password
-        }
-      ]
-    }, { optional: [ { DtlsSrtpKeyAgreement: true } ]});
+    if(navigator.userAgent.match(/Edge\/(\d+).(\d+)$/)) {
+      //BJ: todo: add STUN/TURN servers for Edge, currently unsupported
+      self.peerConnection = new PeerConnection({
+        iceServers: []
+      }, { optional: [ { DtlsSrtpKeyAgreement: true } ]});
+    }
+    else {
+      self.peerConnection = new PeerConnection({
+        iceServers: [
+          {
+            url: 'stun:stun.l.google.com:19302'
+          },
+          {
+            url: self.config.turn.host,
+            username: self.config.turn.username,
+            credential: self.config.turn.password,
+            password: self.config.turn.password
+          }
+        ]
+      }, { optional: [ { DtlsSrtpKeyAgreement: true } ]});
+    }
 
     self.peerConnection.onicecandidate = self.onIceCandidate;
     self.peerConnection.onaddstream = self.onRemoteStreamAdded;

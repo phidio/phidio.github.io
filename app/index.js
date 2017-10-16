@@ -9,8 +9,6 @@ var socket = io.connect('https://phidiortc.azurewebsites.net', { secure: true, t
     ChatWindow = new ChatView(socket),
     session, username, duplicateMessages = [];
 
-
-
 // broadcasted by socket: online users changed
 socket.on('onlineUsers', function(users, idleUsers) {
     $('#amount_of_users').html(users);

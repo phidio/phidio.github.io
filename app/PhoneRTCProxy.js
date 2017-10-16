@@ -303,9 +303,9 @@ module.exports = {
     if(typeof navigator.getUserMedia === 'undefined') {
       callback(false, {name: 'NotSupported'})
     }
-    else if(navigator.userAgent.match(/Edge\/(\d+).(\d+)$/)) {
-      callback(false, {name: 'Edge'});
-    }
+    // else if(navigator.userAgent.match(/Edge\/(\d+).(\d+)$/)) {
+      // callback(false, {name: 'Edge'});
+    // }
     else {
       navigator.getUserMedia({video: true, audio: true}, function (stream) {
         localStreams = [];

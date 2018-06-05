@@ -308,6 +308,7 @@ var remoteVideoViews = [];
 
 module.exports = {
   getCameraAccess: function(callback) {
+    console.log('yolo');
     if(typeof navigator.getUserMedia === 'undefined') {
       callback(false, {name: 'NotSupported'})
     }
@@ -315,7 +316,10 @@ module.exports = {
       // callback(false, {name: 'Edge'});
     // }
     else {
-      navigator.getUserMedia({video: true, audio: true}, function (stream) {
+      console.log('trying to get this data');
+      navigator.mediaDevices.getUserMedia({video: true, audio: true})
+      .then(function(stream) {
+         console.log('got stream');
         localStreams = [];
         localStreams.push(stream);
 
@@ -323,9 +327,10 @@ module.exports = {
         localVideoTrack = stream.getVideoTracks()[0];
 
         callback(true, '')
-      },
-      function(e) {
-        callback(false, e);
+      })
+      .catch(function(err) {
+        console.log('ja jammer', err);
+        callback(false, err);
       });
     }
   },
@@ -374,7 +379,8 @@ module.exports = {
       if (!localVideoView) {
         localVideoView = document.createElement('video');
         localVideoView.autoplay = true;
-        localVideoView.muted = true;
+        localVideoView.setAttribute('playsinline', '');
+        localVideoView.setAttribute('muted', '');
         // localVideoView.addEventListener("loadedmetadata", scaleToFill);
         localVideoView.id = 'localStream';
 
@@ -433,8 +439,10 @@ module.exports = {
 };
 
 function addRemoteStream(stream) {
+  console.log('adding remote stream');
   var videoView = document.createElement('video');
   videoView.autoplay = true;
+  videoView.setAttribute('playsinline', '');
   // videoView.addEventListener("loadedmetadata", scaleToFill);
   videoView.id = 'remoteStream';
 

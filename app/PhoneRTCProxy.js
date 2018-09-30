@@ -317,8 +317,7 @@ module.exports = {
     // }
     else {
       console.log('trying to get this data');
-      navigator.mediaDevices.getUserMedia({video: true, audio: true})
-      .then(function(stream) {
+      navigator.mediaDevices.getUserMedia({video: true, audio: true}).then(function(stream) {
          console.log('got stream');
         localStreams = [];
         localStreams.push(stream);
@@ -327,8 +326,7 @@ module.exports = {
         localVideoTrack = stream.getVideoTracks()[0];
 
         callback(true, '')
-      })
-      .catch(function(err) {
+      }).catch(function(err) {
         console.log('ja jammer', err);
         callback(false, err);
       });

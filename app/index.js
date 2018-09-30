@@ -58,7 +58,7 @@ function loginToSocket() {
     });
 
     function startCall(isInitiator){
-        var data = {credential: 'root', url: 'turn:vidch.at:80?transport=tcp', username: 'user'};
+        var data = {credential: 'password', url: 'turn:40.114.199.209:3478', username: 'username'};
 
         ChatWindow.reset();
         $('body').addClass('inCall');

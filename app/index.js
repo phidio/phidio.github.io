@@ -4,7 +4,7 @@ var PhoneRTCProxy = require('./PhoneRTCProxy');
 var $ = require('jquery');
 var ChatView    = require('./ChatView');
 
-var socket = io.connect('https://phidiortc.azurewebsites.net', { secure: true, transports: [ "flashsocket","polling","websocket" ] } ),
+var socket = io.connect('https://phidio.azurewebsites.net', { secure: true, transports: [ "flashsocket","polling","websocket" ] } ),
 // var socket = io.connect('http://localhost:3000'),
     ChatWindow = new ChatView(socket),
     session, username, duplicateMessages = [];
@@ -58,7 +58,7 @@ function loginToSocket() {
     });
 
     function startCall(isInitiator){
-        var data = {credential: 'password', url: 'turn:40.114.199.209:3478', username: 'username'};
+        var data = {credential: 'password', url: 'turn:20.160.147.22:3478', username: 'username'};
 
         ChatWindow.reset();
         $('body').addClass('inCall');
